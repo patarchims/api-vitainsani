@@ -26,7 +26,6 @@ func (s *Service) RoutingAndListen() {
 
 	apiProtected.POST("/status-antrean", s.AntrianHandler.GetStatusAntrian)
 	apiProtected.POST("/sisa-antrean", s.AntrianHandler.GetSisaAntrian)
-	// apiProtected.POST("/antrean/batal", s.AntrianHandler.BatalAntrean)
 	apiProtected.POST("/batal-antrean", s.AntrianHandler.BatalAntrean)
 	apiProtected.POST("/check-in", s.AntrianHandler.CheckIn)
 	apiProtected.POST("/pasien-baru", s.AntrianHandler.RegisterPasienBaru)
@@ -37,6 +36,9 @@ func (s *Service) RoutingAndListen() {
 	// NEW FITUR, ANTREAN FARMASI
 	apiProtected.POST("/ambil-antrean-farmasi", s.FarmasiHandler.AmbilAntreanFarmasi)
 	apiProtected.POST("/status-antrean-farmasi", s.FarmasiHandler.StatusAntreanFarmasi)
+
+	// MUTIARA
+	apiPublic.GET("/karyawan/:id", s.MutiaraHandler.GetDataGaji) // GE
 
 	// RUN SERVER
 	router.Run(os.Getenv("DEPLOY_PORT"))

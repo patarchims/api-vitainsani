@@ -1,6 +1,9 @@
 package helper
 
 import (
+	"strings"
+
+	humanize "github.com/dustin/go-humanize"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -68,4 +71,10 @@ func Hash(password string) (string, error) {
 func CheckHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func FormatRupiah(amount float64) string {
+	humanizeValue := humanize.CommafWithDigits(amount, 0)
+	stringValue := strings.Replace(humanizeValue, ",", ".", -1)
+	return "Rp " + stringValue
 }
