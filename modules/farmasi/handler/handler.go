@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"encoding/json"
 	"net/http"
 	"vincentcoreapi/helper"
 	"vincentcoreapi/modules/farmasi/dto"
 	"vincentcoreapi/modules/farmasi/entity"
 	"vincentcoreapi/modules/farmasi/mapper"
 	"vincentcoreapi/modules/telegram"
+
+	"github.com/goccy/go-json"
 
 	"github.com/gin-gonic/gin"
 )

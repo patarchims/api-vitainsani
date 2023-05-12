@@ -20,6 +20,7 @@ type AntrianUseCase interface {
 
 // AntrianRepository
 type AntrianRepository interface {
+	ListAntrianToday(ctx context.Context) (res []antrian.AntrianOl, err error)
 	CekPoli(ctx context.Context, value string) (isTrue bool, err error)
 	DetailPoli(ctx context.Context, params map[string]interface{}) (res map[string]interface{}, err error)
 	LastCalled(ctx context.Context, payload *dto.StatusAntrianRequest) (res antrian.LastCalled, err error)

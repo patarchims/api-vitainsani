@@ -2,7 +2,6 @@ package rest
 
 import (
 	"encoding/base64"
-	"encoding/json"
 	"errors"
 	"net/http"
 	"time"
@@ -10,13 +9,15 @@ import (
 	"vincentcoreapi/modules/telegram"
 	"vincentcoreapi/modules/user"
 
+	"github.com/goccy/go-json"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "https://rsmethodist.vincentcore.co.id:28444")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "https://rsvitainsani.vincentcore.co.id:28444")
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "*")
@@ -82,8 +83,9 @@ func JwtVerify() gin.HandlerFunc {
 		_, err := jwt.Parse(r.Token, func(token *jwt.Token) (interface{}, error) {
 			return []byte(SecretKey), nil
 		})
+
 		if err != nil {
-			er := errors.New("Token expired")
+			er := errors.New("token expired")
 			response := helper.APIResponseFailure(er.Error(), http.StatusCreated)
 			c.AbortWithStatusJSON(http.StatusCreated, response)
 			telegram.RunFailureMessage("Verify Token", response, c, data)

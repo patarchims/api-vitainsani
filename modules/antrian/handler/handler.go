@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -10,6 +9,8 @@ import (
 	"vincentcoreapi/modules/antrian/entity"
 	"vincentcoreapi/modules/antrian/mapper"
 	"vincentcoreapi/modules/telegram"
+
+	"github.com/goccy/go-json"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +36,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 	}
 
 	validasi := ah.AntrianUseCase.ValidasiDate(c, payload.TanggalPeriksa)
-	if validasi != true {
+	if !validasi {
 		response := helper.APIResponseFailure("Format Tanggal Tidak Sesuai, format yang benar adalah yyyy-mm-dd", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
 		telegram.RunFailureMessage("GET STATUS ANTREAN", response, c, data)
@@ -72,6 +73,25 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 
 	response := helper.APIResponse("Ok", http.StatusOK, "Ok", m)
 	telegram.RunSuccessMessage("GET STATUS ANTREAN", response, c, data)
+	c.JSON(http.StatusOK, response)
+}
+
+func (ah *AntrianHandler) ListAntrianToday(c *gin.Context) {
+	data, errs := ah.AntrianRepository.ListAntrianToday(c)
+
+	if errs != nil {
+		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
+		c.JSON(http.StatusCreated, response)
+		return
+	}
+
+	if len(data) == 0 {
+		response := helper.APIResponseFailure("Data kosong", http.StatusCreated)
+		c.JSON(http.StatusCreated, response)
+		return
+	}
+
+	response := helper.APIResponse("Ok", http.StatusOK, "Ok", data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -208,7 +228,7 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 	// CEK FROMAT TANGGAL
 	validasi := ah.AntrianUseCase.ValidasiDate(c, payload.Tanggalakhir)
 	validasi1 := ah.AntrianUseCase.ValidasiDate(c, payload.Tanggalawal)
-	if validasi != true || validasi1 != true {
+	if !validasi || !validasi1 {
 		response := helper.APIResponseFailure("Format Tanggal (YYYY-MM-DD)", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
 		telegram.RunFailureMessage("POST GET JADWAL OPERASI", response, c, data)

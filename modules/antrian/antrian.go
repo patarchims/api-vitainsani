@@ -217,22 +217,22 @@ type (
 )
 
 func (AntrianOl) TableName() string {
-	return "antrian_ol"
+	return "rekam.antrian_ol"
 }
 func (AntreanOlPol) TableName() string {
-	return "antrian_ol_pool"
+	return "rekam.antrian_ol_pool"
 }
 
 func (AntrianOl2) TableName() string {
-	return "antrian_ol2"
+	return "rekam.antrian_ol2"
 }
 
 func (JadopOl) TableName() string {
-	return "jadop_ol"
+	return "rekam.jadop_ol"
 }
 
 func (LiburOl) TableName() string {
-	return "libur_ol"
+	return "rekam.libur_ol"
 }
 
 func (KtaripDokter) TableName() string {

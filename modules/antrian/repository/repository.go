@@ -25,6 +25,16 @@ func NewAntrianRepository(db *gorm.DB) entity.AntrianRepository {
 	}
 }
 
+func (ar *antrianRepository) ListAntrianToday(ctx context.Context) (res []antrian.AntrianOl, err error) {
+
+	if err := ar.DB.Where("status = ? ", "tunggu").Limit(100).Take(&res).Error; err != nil {
+		return res, err
+	}
+
+	return res, nil
+
+}
+
 func (ar *antrianRepository) CekPoli(ctx context.Context, value string) (isTrue bool, err error) {
 	kp := antrian.Kpoli{}
 
@@ -183,7 +193,7 @@ func (ar *antrianRepository) GetMobileJknByKodebooking(ctx context.Context, kode
 	result := ar.DB.WithContext(ctx).Raw(query, kodebooking).Scan(&res)
 	if result.Error != nil || res.NoAntrian == "" {
 		log.Println(ctx, "[Error Query]", err)
-		return res, errors.New("Antrean dengan kode booking tersebut tidak ditemukan")
+		return res, errors.New("antrean dengan kode booking tersebut tidak ditemukan")
 	}
 
 	return res, nil
@@ -204,7 +214,7 @@ func (ar *antrianRepository) GetSisaAntrean(ctx context.Context, req dto.GetSisa
 
 	if result.Error != nil || kodeBook.NoAntrian == "" {
 		log.Println(ctx, "[Error Query]", err)
-		return res, errors.New("Antrean dengan kode booking tersebut tidak ditemukan")
+		return res, errors.New("antrean dengan kode booking tersebut tidak ditemukan")
 	}
 
 	type SisaAntrean struct {
@@ -224,7 +234,7 @@ func (ar *antrianRepository) GetSisaAntrean(ctx context.Context, req dto.GetSisa
 
 	if value.Error != nil {
 		log.Println(ctx, "[Error Query]", err)
-		return res, errors.New("Error query")
+		return res, errors.New("error query")
 	}
 
 	res.Nomorantrean = kodeBook.NoAntrian
@@ -242,15 +252,15 @@ func (ar *antrianRepository) GetAntreanByKodeBooking(ctx context.Context, kodeBo
 	antrianOL antrian.AntrianOl, err error) {
 
 	if err = ar.DB.Where("no_book = ?", kodeBooking).Take(&antrianOL).Error; err != nil {
-		return antrianOL, errors.New("Antrean tidak ditemukan")
+		return antrianOL, errors.New("antrean tidak ditemukan")
 	}
 
 	if antrianOL.Status == "batal" {
-		return antrianOL, errors.New("Antrean tidak dapat ditemukan atau sudah Dibatalkan")
+		return antrianOL, errors.New("antrean tidak dapat ditemukan atau sudah Dibatalkan")
 	}
 
 	if antrianOL.Status == "proses" {
-		return antrianOL, errors.New("Pasien sudah dilayani antrean tidak dapat dibatalkan")
+		return antrianOL, errors.New("pasien sudah dilayani antrean tidak dapat dibatalkan")
 	}
 
 	return antrianOL, nil
@@ -343,11 +353,11 @@ func (ar *antrianRepository) CheckAntrean(ctx context.Context, nomorKartu, tglPe
 		Where("noka = ?  AND b.bpjs = ? AND  a.status =?", nomorKartu, kodePoli, "tunggu").
 		Count(&jumlah)
 	if result.Error != nil {
-		return jumlah, errors.New("Data tidak di temukan")
+		return jumlah, errors.New("data tidak di temukan")
 	}
 
 	if jumlah > 0 {
-		return jumlah, errors.New("Nomor antrean hanya dapat diambil 1 kali pada tanggal yang sama")
+		return jumlah, errors.New("nomor antrean hanya dapat diambil 1 kali pada tanggal yang sama")
 	}
 
 	return jumlah, nil

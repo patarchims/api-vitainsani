@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"vincentcoreapi/app/rest"
+	"vincentcoreapi/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,8 +13,13 @@ func (s *Service) RoutingAndListen() {
 
 	router := gin.Default()
 
+	gin.SetMode(gin.ReleaseMode)
+
+	// USER LOGGER MIDDLEWARE
 	router.Use(rest.CORSMiddleware())
-	// API VERSI 1
+	router.Use(config.GinBodyLogMiddleware)
+
+	router.Use(rest.CORSMiddleware())
 	api := router.Group("")
 
 	// API PUBLIC
@@ -38,7 +44,7 @@ func (s *Service) RoutingAndListen() {
 	apiProtected.POST("/status-antrean-farmasi", s.FarmasiHandler.StatusAntreanFarmasi)
 
 	// MUTIARA
-	apiPublic.GET("/karyawan/:id", s.MutiaraHandler.GetDataGaji) // GE
+	apiPublic.GET("/karyawan/:id", s.MutiaraHandler.GetDataGaji)
 
 	// RUN SERVER
 	router.Run(os.Getenv("DEPLOY_PORT"))

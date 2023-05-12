@@ -2,12 +2,12 @@ package telegram
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/goccy/go-json"
 
 	env "os"
 	"time"
@@ -60,9 +60,9 @@ func SendMessageTelegram(method string, response helper.Response, request string
 		panic(err)
 	}
 	defer responseLoc.Body.Close()
-	ipLoc, _ := ioutil.ReadAll(responseLoc.Body)
+	ipLoc, _ := io.ReadAll(responseLoc.Body)
 
-	s, err := getStations([]byte(ipLoc))
+	s, _ := getStations([]byte(ipLoc))
 
 	now := time.Now()
 	data, _ := json.Marshal(response)
@@ -77,12 +77,12 @@ func SendMessageFailureTelegram(method string, response helper.FailureResponse, 
 		panic(err)
 	}
 	defer responseLoc.Body.Close()
-	ipLoc, _ := ioutil.ReadAll(responseLoc.Body)
+	ipLoc, _ := io.ReadAll(responseLoc.Body)
 
-	s, err := getStations([]byte(ipLoc))
+	ss, _ := getStations([]byte(ipLoc))
 
 	now := time.Now()
 	data, _ := json.Marshal(response)
-	var message = fmt.Sprintf(env.Getenv("API_TITLE") + "\n" + method + " [" + now.Format("2006-01-02") + "]\n==============================\n Client Req :" + request + "\n==============================\n Server Res :" + string(data) + "\n==============================\n\nReq Info: \nHost: " + host + "  \nIP: " + s.Query + "\nRegion: " + s.RegionName + "  \nCity: " + s.Country + "-" + s.City + " \nPlatform/Device:" + device)
+	var message = fmt.Sprintf(env.Getenv("API_TITLE") + "\n" + method + " [" + now.Format("2006-01-02") + "]\n==============================\n Client Req :" + request + "\n==============================\n Server Res :" + string(data) + "\n==============================\n\nReq Info: \nHost: " + host + "  \nIP: " + ss.Query + "\nRegion: " + ss.RegionName + "  \nCity: " + ss.Country + "-" + ss.City + " \nPlatform/Device:" + device)
 	return message
 }

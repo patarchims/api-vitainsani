@@ -36,7 +36,7 @@ func RunApplication() {
 	err := godotenv.Load(".env")
 
 	if err != nil {
-		fmt.Println(".env is not loaded properly")
+		fmt.Println("env is not loaded properly")
 		os.Exit(1)
 	}
 
