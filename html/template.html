@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Directory Listing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            margin-top: 20px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .folder {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+        }
+        
+        .file {
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <h1>Directory Listing</h1>
+    <ul>
+        {{range .}}
+            <li>
+                <a class="{{if .IsDir}}folder{{else}}file{{end}}" href="{{.URL}}">{{.Name}}</a>
+            </li>
+        {{end}}
+    </ul>
+</body>
+</html>

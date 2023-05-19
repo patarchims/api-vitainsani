@@ -20,6 +20,16 @@ type FarmasiHandler struct {
 }
 
 // SERVICES POST STATUS ANTREAN
+// @Summary			Ambil Antrean Farmasi
+// @Description		Ambil Antrean Farmasi
+// @Tags			Farmasi
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			jadwal-operasi-pasien	body		dto.GetAntreanFarmasiRequest	true	"Get Antrean Farmasi Request"
+// @Success			200			{object}  	dto.AmbilAntreanFarmasiResponse
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/ambil-antrean-farmasi	[post]
 func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 
 	payload := new(dto.GetAntreanFarmasiRequest)
@@ -49,6 +59,16 @@ func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 
 }
 
+// @Summary			Status Antrean Farmasi
+// @Description		Status Antrean Farmasi
+// @Tags			Farmasi
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			jadwal-operasi-pasien	body		dto.GetAntreanFarmasiRequest	true	"Get Antrean Farmasi Request"
+// @Success			200			{object}  	dto.StatusAntreanFarmasiResponse
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/status-antrean-farmasi	[post]
 func (ah *FarmasiHandler) StatusAntreanFarmasi(c *gin.Context) {
 	payload := new(dto.GetAntreanFarmasiRequest)
 	err := c.ShouldBindJSON(&payload)

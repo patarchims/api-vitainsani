@@ -9,6 +9,7 @@ import (
 type MutiaraRepository interface {
 	GetGaji(ctx context.Context, userID string) (res []mutiara.DGaji, err error)
 	GetKaryawan(ctx context.Context, userID string) (res mutiara.DKaryawan, err error)
+	GetPengajar(ctx context.Context) (res []mutiara.DKaryawan, err error)
 }
 
 type MutiaraUseCase interface {

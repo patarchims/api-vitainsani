@@ -45,3 +45,15 @@ func (mr *mutiaraRepository) GetGaji(ctx context.Context, userID string) (res []
 	return res, nil
 
 }
+
+func (mr *mutiaraRepository) GetPengajar(ctx context.Context) (res []mutiara.DKaryawan, err error) {
+	query := "SELECT * FROM mutiara.pengajar;"
+	result := mr.DB.WithContext(ctx).Raw(query).Scan(&res)
+
+	if result.Error != nil {
+		message := fmt.Sprintf("Error %s, Data tidak ditemukan", err.Error())
+		return res, errors.New(message)
+	}
+
+	return res, nil
+}

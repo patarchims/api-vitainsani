@@ -22,6 +22,17 @@ type AntrianHandler struct {
 }
 
 // SERVICES POST STATUS ANTREAN
+
+// @Summary			Status Antrean
+// @Description		Get Status Antrean Pasien
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			status_antrean		body		dto.StatusAntrianRequest		true	"Get Status Antrean"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/status-antrean 	[post]
 func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 	payload := new(dto.StatusAntrianRequest)
 	err := c.ShouldBindJSON(&payload)
@@ -95,6 +106,16 @@ func (ah *AntrianHandler) ListAntrianToday(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary			Status Antrean
+// @Description		Get Status Antrean Pasien
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			status_antrean		body		dto.StatusAntrianRequest		true	"Get Status Antrean"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/sisa-antrean 	[post]
 func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 	payload := new(dto.GetSisaAntrianRequest)
 	data, _ := json.Marshal(payload)
@@ -123,6 +144,16 @@ func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 }
 
 // SERVICES POST BATAL ANTREAN
+// @Summary			Batal Antrean
+// @Description		Batal Antrean
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			batal_antrean		body		dto.BatalAntreanRequest		true	"Batal Antrean"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/batal-antrean 	[post]
 func (ah *AntrianHandler) BatalAntrean(c *gin.Context) {
 
 	payload := new(dto.BatalAntreanRequest)
@@ -150,6 +181,16 @@ func (ah *AntrianHandler) BatalAntrean(c *gin.Context) {
 }
 
 // SERVICES CHECK IN
+// @Summary			Check In Antrean
+// @Description		Check In Antrean
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			check-in	body		dto.CheckInRequest	true	"Batal Antrean"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/check-in 	[post]
 func (ah *AntrianHandler) CheckIn(c *gin.Context) {
 
 	payload := new(dto.CheckInRequest)
@@ -178,6 +219,16 @@ func (ah *AntrianHandler) CheckIn(c *gin.Context) {
 }
 
 // SERVICES REGISTER PASIEN BARU
+// @Summary			Check In Antrean
+// @Description		Check In Antrean
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			check-in	body		dto.RegisterPasienBaruRequest	true	"Pasien Baru"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/pasien-baru 	[post]
 func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 	payload := new(dto.RegisterPasienBaruRequest)
 	err := c.ShouldBindJSON(&payload)
@@ -213,6 +264,16 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 }
 
 // GetJadwalOperasi
+// @Summary			Get Jadwal Operasi Pasien
+// @Description		Get Jadwal Operasi Pasien
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			jadwal-operasi	body		dto.JadwalOperasiRequest	true	"Jadwal Operasi Pasien"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/get-jadwal-operasi 	[post]
 func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 	payload := new(dto.JadwalOperasiRequest)
 	err := c.ShouldBindJSON(&payload)
@@ -267,6 +328,16 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 }
 
 // GetKodeBookingOperasi
+// @Summary			Get Jadwal Operasi Pasien Pasien
+// @Description		Get Jadwal Operasi Pasien Pasien
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			jadwal-operasi-pasien	body		dto.JadwalOperasiPasienRequest	true	"Get Booking Operasi"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/list-jadwal-operasi	[post]
 func (ah *AntrianHandler) GetKodeBookingOperasi(c *gin.Context) {
 
 	payload := new(dto.JadwalOperasiPasienRequest)
@@ -295,6 +366,16 @@ func (ah *AntrianHandler) GetKodeBookingOperasi(c *gin.Context) {
 }
 
 // AMBIL ANTRIAN
+// @Summary			Get Antrean Pasien
+// @Description		Get Antrean Pasien
+// @Tags			Antrean
+// @Accept			json
+// @Produce			json
+// @Security BasicAuth
+// @Param			antrian-pasien	body		dto.GetAntrianRequest	true	"Get Antrean Pasien Request"
+// @Success			200			{object}  	dto.InsertPasienDTO
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/list-jadwal-operasi	[post]
 func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 	payload := new(dto.GetAntrianRequest)
 	err := c.ShouldBindJSON(&payload)

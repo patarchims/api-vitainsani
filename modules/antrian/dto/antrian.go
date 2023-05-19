@@ -4,139 +4,139 @@ import "time"
 
 type (
 	GetSisaAntrianRequest struct {
-		Kodebooking string `json:"kodebooking" binding:"required"`
+		Kodebooking string `json:"kodebooking" binding:"required"  bson:"kodebooking"`
 	}
 
 	ResPasienBaru struct {
-		Norm string `json:"norm"`
+		Norm string `json:"norm" bson:"norm"`
 	}
 
 	SisaAntreanResnonse struct {
-		Nomorantrean   string `json:"nomorantrean"`
-		NamaPoli       string `json:"namapoli"`
-		NamaDokter     string `json:"namadokter"`
-		SisaAntrean    int    `json:"sisaantrean"`
-		AntreanPanggil string `json:"antreanpanggil"`
-		WaktuTunggu    int    `json:"waktutunggu"`
-		Keterangan     string `json:"keterangan"`
+		Nomorantrean   string `json:"nomorantrean" bson:"nomorantrean"`
+		NamaPoli       string `json:"namapoli" bson:"namapoli"`
+		NamaDokter     string `json:"namadokter" bson:"namadokter"`
+		SisaAntrean    int    `json:"sisaantrean" bson:"sisaantrean"`
+		AntreanPanggil string `json:"antreanpanggil" bson:"antreanpanggil"`
+		WaktuTunggu    int    `json:"waktutunggu" bson:"waktutunggu"`
+		Keterangan     string `json:"keterangan" bson:"keterangan"`
 	}
 
 	StatusAntrianRequest struct {
-		KodePoli       string `json:"kodepoli" binding:"required"`
-		TanggalPeriksa string `json:"tanggalperiksa" binding:"required"`
-		KodeDokter     int    `json:"kodedokter" binding:"required"`
-		JamPraktek     string `json:"jampraktek" binding:"required"`
+		KodePoli       string `json:"kodepoli" binding:"required" bson:"kodepoli"`
+		TanggalPeriksa string `json:"tanggalperiksa" binding:"required" bson:"tanggalperiksa"`
+		KodeDokter     int    `json:"kodedokter" binding:"required" bson:"kodedokter"`
+		JamPraktek     string `json:"jampraktek" binding:"required" bson:"jampraktek"`
 	}
 
 	BatalAntreanRequest struct {
-		Kodebooking string `json:"kodebooking" binding:"required"`
-		Keterangan  string `json:"keterangan" binding:"required"`
+		Kodebooking string `json:"kodebooking" binding:"required" bson:"kodebooking"`
+		Keterangan  string `json:"keterangan" binding:"required" bson:"keterangan"`
 	}
 
 	CheckInRequest struct {
-		Kodebooking string `json:"kodebooking" binding:"required"`
-		Waktu       int64  `json:"waktu" binding:"required"`
+		Kodebooking string `json:"kodebooking" binding:"required" bson:"kodebooking"`
+		Waktu       int64  `json:"waktu" binding:"required" bson:"waktu"`
 	}
 
 	RegisterPasienBaruRequest struct {
-		Nomorkartu   string `json:"nomorkartu"`
-		Nik          string `json:"nik"`
-		Nomorkk      string `json:"nomorkk"`
-		Nama         string `json:"nama"`
-		Jeniskelamin string `json:"jeniskelamin"`
-		Tanggallahir string `json:"tanggallahir"`
-		Nohp         string `json:"nohp"`
-		Alamat       string `json:"alamat"`
-		Kodeprop     string `json:"kodeprop"`
-		Namaprop     string `json:"namaprop"`
-		Kodedati2    string `json:"kodedati2"`
-		Namadati2    string `json:"namadati2"`
-		Kodekec      string `json:"kodekec"`
-		Namakec      string `json:"namakec"`
-		Kodekel      string `json:"kodekel"`
-		Namakel      string `json:"namakel"`
-		Rw           string `json:"rw"`
-		Rt           string `json:"rt"`
+		Nomorkartu   string `json:"nomorkartu" bson:"nomorkartu"`
+		Nik          string `json:"nik" bson:"nik"`
+		Nomorkk      string `json:"nomorkk" bson:"nomorkk"`
+		Nama         string `json:"nama" bson:"nama"`
+		Jeniskelamin string `json:"jeniskelamin" bson:"jeniskelamin"`
+		Tanggallahir string `json:"tanggallahir" bson:"tanggallahir"`
+		Nohp         string `json:"nohp" bson:"nohp"`
+		Alamat       string `json:"alamat" bson:"alamat"`
+		Kodeprop     string `json:"kodeprop" bson:"kodeprop"`
+		Namaprop     string `json:"namaprop" bson:"namaprop"`
+		Kodedati2    string `json:"kodedati2" bson:"kodedati2"`
+		Namadati2    string `json:"namadati2" bson:"namadati2"`
+		Kodekec      string `json:"kodekec" bson:"kodekec"`
+		Namakec      string `json:"namakec" bson:"namakec"`
+		Kodekel      string `json:"kodekel" bson:"kodekel"`
+		Namakel      string `json:"namakel" bson:"namakel"`
+		Rw           string `json:"rw" bson:"rw"`
+		Rt           string `json:"rt" bson:"rt"`
 	}
 
 	JadwalOperasiRequest struct {
-		Tanggalawal  string `json:"tanggalawal" binding:"required"`
-		Tanggalakhir string `json:"tanggalakhir" binding:"required"`
+		Tanggalawal  string `json:"tanggalawal" binding:"required" bson:"tanggalawal"`
+		Tanggalakhir string `json:"tanggalakhir" binding:"required" bson:"tanggalakhir"`
 	}
 
 	JadwalOperasiPasienRequest struct {
-		Nopeserta string `json:"nopeserta" binding:"required"`
+		Nopeserta string `json:"nopeserta" binding:"required" bson:"nopeserta"`
 	}
 
 	GetAntrianRequest struct {
-		Nomorkartu     string `json:"nomorkartu"`
-		Nik            string `json:"nik" binding:"required"`
-		Nohp           string `json:"nohp" binding:"required"`
-		Kodepoli       string `json:"kodepoli" binding:"required"`
-		Norm           string `json:"norm,omitempty"`
-		Tanggalperiksa string `json:"tanggalperiksa" binding:"required"`
-		Kodedokter     int    `json:"kodedokter" binding:"required"`
-		Jampraktek     string `json:"jampraktek" binding:"required"`
-		Jeniskunjungan int    `json:"jeniskunjungan" binding:"required"`
-		Nomorreferensi string `json:"nomorreferensi" binding:"required"`
+		Nomorkartu     string `json:"nomorkartu"  bson:"nomorkartu"`
+		Nik            string `json:"nik" binding:"required"  bson:"nik"`
+		Nohp           string `json:"nohp" binding:"required"  bson:"nohp"`
+		Kodepoli       string `json:"kodepoli" binding:"required"  bson:"kodepoli"`
+		Norm           string `json:"norm,omitempty"  bson:"norm,omitempty"`
+		Tanggalperiksa string `json:"tanggalperiksa" binding:"required"  bson:"tanggalperiksa"`
+		Kodedokter     int    `json:"kodedokter" binding:"required"  bson:"kodedokter"`
+		Jampraktek     string `json:"jampraktek" binding:"required"  bson:"jampraktek"`
+		Jeniskunjungan int    `json:"jeniskunjungan" binding:"required"  bson:"jeniskunjungan"`
+		Nomorreferensi string `json:"nomorreferensi" binding:"required"  bson:"nomorreferensi"`
 	}
 
 	GetMobileJknByKodebookingDTO struct {
-		EstimasiPerPasien int       `json:"estimasi_per_pasien"`
-		NoAntrian         string    `json:"no_antrian"`
-		TglPeriksa        time.Time `json:"tgl_periksa"`
-		Spesialisasi      string    `json:"spesialisasi"`
-		Tujuan            string    `json:"tujuan"`
-		Namadokter        string    `json:"namadokter"`
-		MapingAntrol      string    `json:"maping_antrol"`
+		EstimasiPerPasien int       `json:"estimasi_per_pasien" bson:"estimasi_per_pasien"`
+		NoAntrian         string    `json:"no_antrian" bson:"no_antrian"`
+		TglPeriksa        time.Time `json:"tgl_periksa" bson:"tgl_periksa"`
+		Spesialisasi      string    `json:"spesialisasi" bson:"spesialisasi"`
+		Tujuan            string    `json:"tujuan" bson:"tujuan"`
+		Namadokter        string    `json:"namadokter" bson:"namadokter"`
+		MapingAntrol      string    `json:"maping_antrol" bson:"maping_antrol"`
 	}
 
 	StatusAntreanDTO struct {
-		Namapoli        string `json:"namapoli"`
-		Namadokter      string `json:"namadokter"`
-		Totalantrean    int    `json:"totalantrean"`
-		Sisaantrean     int    `json:"sisaantrean"`
-		Antreanpanggil  string `json:"antreanpanggil"`
-		Sisakuotajkn    int    `json:"sisakuotajkn"`
-		Kuotajkn        int    `json:"kuotajkn"`
-		Sisakuotanonjkn int    `json:"sisakuotanonjkn"`
-		Kuotanonjkn     int    `json:"kuotanonjkn"`
-		Keterangan      string `json:"keterangan"`
+		Namapoli        string `json:"namapoli" bson:"namapoli"`
+		Namadokter      string `json:"namadokter" bson:"namadokter"`
+		Totalantrean    int    `json:"totalantrean" bson:"totalantrean"`
+		Sisaantrean     int    `json:"sisaantrean" bson:"sisaantrean"`
+		Antreanpanggil  string `json:"antreanpanggil" bson:"antreanpanggil"`
+		Sisakuotajkn    int    `json:"sisakuotajkn" bson:"sisakuotajkn"`
+		Kuotajkn        int    `json:"kuotajkn" bson:"kuotajkn"`
+		Sisakuotanonjkn int    `json:"sisakuotanonjkn" bson:"sisakuotanonjkn"`
+		Kuotanonjkn     int    `json:"kuotanonjkn" bson:"kuotanonjkn"`
+		Keterangan      string `json:"keterangan" bson:"keterangan"`
 	}
 
 	SisaANtreanDTO struct {
-		Nomorantrean   string `json:"nomorantrean"`
-		Namapoli       string `json:"namapoli"`
-		Namadokter     string `json:"namadokter"`
-		SisaAntrean    int    `json:"sisaantrean"`
-		Antreanpanggil string `json:"antreanpanggil"`
-		Waktutunggu    int    `json:"waktutunggu"`
-		Keterangan     string `json:"keterangan"`
+		Nomorantrean   string `json:"nomorantrean" bson:"nomorantrean"`
+		Namapoli       string `json:"namapoli" bson:"namapoli"`
+		Namadokter     string `json:"namadokter" bson:"namadokter"`
+		SisaAntrean    int    `json:"sisaantrean" bson:"sisaantrean"`
+		Antreanpanggil string `json:"antreanpanggil" bson:"antreanpanggil"`
+		Waktutunggu    int    `json:"waktutunggu" bson:"waktutunggu"`
+		Keterangan     string `json:"keterangan" bson:"keterangan"`
 	}
 
 	JadwalOperasiDTO struct {
-		Kodebooking    string `json:"kodebooking"`
-		Tanggaloperasi string `json:"tanggaloperasi"`
-		Jenistindakan  string `json:"jenistindakan"`
-		Kodepoli       string `json:"kodepoli"`
-		Namapoli       string `json:"namapoli"`
-		Terlaksana     int    `json:"terlaksana"`
-		Nopeserta      string `json:"nopeserta,omitempty"`
-		Lastupdate     int64  `json:"lastupdate,omitempty"`
+		Kodebooking    string `json:"kodebooking" bson:"kodebooking"`
+		Tanggaloperasi string `json:"tanggaloperasi" bson:"tanggaloperasi"`
+		Jenistindakan  string `json:"jenistindakan" bson:"jenistindakan"`
+		Kodepoli       string `json:"kodepoli" bson:"kodepoli"`
+		Namapoli       string `json:"namapoli" bson:"namapoli"`
+		Terlaksana     int    `json:"terlaksana" bson:"terlaksana"`
+		Nopeserta      string `json:"nopeserta,omitempty" bson:"nopeserta,omitempty"`
+		Lastupdate     int64  `json:"lastupdate,omitempty" bson:"lastupdate,omitempty"`
 	}
 
 	InsertPasienDTO struct {
-		Nomorantrean     string `json:"nomorantrean"`
-		Angkaantrean     int    `json:"angkaantrean"`
-		Kodebooking      string `json:"kodebooking"`
-		Norm             string `json:"norm"`
-		Namapoli         string `json:"namapoli"`
-		Namadokter       string `json:"namadokter"`
-		Estimasidilayani int    `json:"estimasidilayani"`
-		Sisakuotajkn     int    `json:"sisakuotajkn"`
-		Kuotajkn         int    `json:"kuotajkn"`
-		Sisakuotanonjkn  int    `json:"sisakuotanonjkn"`
-		Kuotanonjkn      int    `json:"kuotanonjkn"`
-		Keterangan       string `json:"keterangan"`
+		Nomorantrean     string `json:"nomorantrean" bson:"nomorantrean"`
+		Angkaantrean     int    `json:"angkaantrean" bson:"angkaantrean"`
+		Kodebooking      string `json:"kodebooking" bson:"kodebooking"`
+		Norm             string `json:"norm" bson:"norm"`
+		Namapoli         string `json:"namapoli" bson:"namapoli"`
+		Namadokter       string `json:"namadokter" bson:"namadokter"`
+		Estimasidilayani int    `json:"estimasidilayani" bson:"estimasidilayani"`
+		Sisakuotajkn     int    `json:"sisakuotajkn" bson:"sisakuotajkn"`
+		Kuotajkn         int    `json:"kuotajkn" bson:"kuotajkn"`
+		Sisakuotanonjkn  int    `json:"sisakuotanonjkn" bson:"sisakuotanonjkn"`
+		Kuotanonjkn      int    `json:"kuotanonjkn" bson:"kuotanonjkn"`
+		Keterangan       string `json:"keterangan" bson:"keterangan"`
 	}
 )

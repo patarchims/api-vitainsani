@@ -1,0 +1,553 @@
+basePath: /api/v1
+definitions:
+  dto.AmbilAntreanFarmasiResponse:
+    properties:
+      jenisresep:
+        type: string
+      keterangan:
+        type: string
+      nomorantrean:
+        type: integer
+    type: object
+  dto.BatalAntreanRequest:
+    properties:
+      keterangan:
+        type: string
+      kodebooking:
+        type: string
+    required:
+    - keterangan
+    - kodebooking
+    type: object
+  dto.CheckInRequest:
+    properties:
+      kodebooking:
+        type: string
+      waktu:
+        type: integer
+    required:
+    - kodebooking
+    - waktu
+    type: object
+  dto.GetAntreanFarmasiRequest:
+    properties:
+      kodebooking:
+        type: string
+    required:
+    - kodebooking
+    type: object
+  dto.GetAntrianRequest:
+    properties:
+      jampraktek:
+        type: string
+      jeniskunjungan:
+        type: integer
+      kodedokter:
+        type: integer
+      kodepoli:
+        type: string
+      nik:
+        type: string
+      nohp:
+        type: string
+      nomorkartu:
+        type: string
+      nomorreferensi:
+        type: string
+      norm:
+        type: string
+      tanggalperiksa:
+        type: string
+    required:
+    - jampraktek
+    - jeniskunjungan
+    - kodedokter
+    - kodepoli
+    - nik
+    - nohp
+    - nomorreferensi
+    - tanggalperiksa
+    type: object
+  dto.InsertPasienDTO:
+    properties:
+      angkaantrean:
+        type: integer
+      estimasidilayani:
+        type: integer
+      keterangan:
+        type: string
+      kodebooking:
+        type: string
+      kuotajkn:
+        type: integer
+      kuotanonjkn:
+        type: integer
+      namadokter:
+        type: string
+      namapoli:
+        type: string
+      nomorantrean:
+        type: string
+      norm:
+        type: string
+      sisakuotajkn:
+        type: integer
+      sisakuotanonjkn:
+        type: integer
+    type: object
+  dto.JadwalOperasiPasienRequest:
+    properties:
+      nopeserta:
+        type: string
+    required:
+    - nopeserta
+    type: object
+  dto.JadwalOperasiRequest:
+    properties:
+      tanggalakhir:
+        type: string
+      tanggalawal:
+        type: string
+    required:
+    - tanggalakhir
+    - tanggalawal
+    type: object
+  dto.RegisterPasienBaruRequest:
+    properties:
+      alamat:
+        type: string
+      jeniskelamin:
+        type: string
+      kodedati2:
+        type: string
+      kodekec:
+        type: string
+      kodekel:
+        type: string
+      kodeprop:
+        type: string
+      nama:
+        type: string
+      namadati2:
+        type: string
+      namakec:
+        type: string
+      namakel:
+        type: string
+      namaprop:
+        type: string
+      nik:
+        type: string
+      nohp:
+        type: string
+      nomorkartu:
+        type: string
+      nomorkk:
+        type: string
+      rt:
+        type: string
+      rw:
+        type: string
+      tanggallahir:
+        type: string
+    type: object
+  dto.RequestHeader:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.StatusAntreanFarmasiResponse:
+    properties:
+      antreanpanggil:
+        type: integer
+      jenisresep:
+        type: string
+      keterangan:
+        type: string
+      sisaantrean:
+        type: integer
+      totalantrean:
+        type: integer
+    type: object
+  dto.StatusAntrianRequest:
+    properties:
+      jampraktek:
+        type: string
+      kodedokter:
+        type: integer
+      kodepoli:
+        type: string
+      tanggalperiksa:
+        type: string
+    required:
+    - jampraktek
+    - kodedokter
+    - kodepoli
+    - tanggalperiksa
+    type: object
+  helper.FailureResponse:
+    properties:
+      metadata:
+        $ref: '#/definitions/helper.Meta'
+    type: object
+  helper.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  helper.Response:
+    properties:
+      metadata:
+        $ref: '#/definitions/helper.Meta'
+      response: {}
+    type: object
+host: https://rsvitainsani.vincentcore.co.id:28444
+info:
+  contact:
+    email: vincentpmk@gmail.com
+    name: Vincentcore IT Consultant
+    url: https://www.vincentcore.co.id
+  description: Documentasi API yang dapat diakses dari luar, untuk terhubung ke Aplikasi
+    System Informasi Manajemen Rumah Sakit Vita Insani
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Rumah Sakit Vita Insani Pematangsiantar API
+  version: "1.0"
+paths:
+  /ambil-antrean-farmasi:
+    post:
+      consumes:
+      - application/json
+      description: Ambil Antrean Farmasi
+      parameters:
+      - description: Get Antrean Farmasi Request
+        in: body
+        name: jadwal-operasi-pasien
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetAntreanFarmasiRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AmbilAntreanFarmasiResponse'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Ambil Antrean Farmasi
+      tags:
+      - Farmasi
+  /batal-antrean:
+    post:
+      consumes:
+      - application/json
+      description: Batal Antrean
+      parameters:
+      - description: Batal Antrean
+        in: body
+        name: batal_antrean
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BatalAntreanRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Batal Antrean
+      tags:
+      - Antrean
+  /check-in:
+    post:
+      consumes:
+      - application/json
+      description: Check In Antrean
+      parameters:
+      - description: Batal Antrean
+        in: body
+        name: check-in
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CheckInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Check In Antrean
+      tags:
+      - Antrean
+  /get-jadwal-operasi:
+    post:
+      consumes:
+      - application/json
+      description: Get Jadwal Operasi Pasien
+      parameters:
+      - description: Jadwal Operasi Pasien
+        in: body
+        name: jadwal-operasi
+        required: true
+        schema:
+          $ref: '#/definitions/dto.JadwalOperasiRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Get Jadwal Operasi Pasien
+      tags:
+      - Antrean
+  /gettoken:
+    get:
+      consumes:
+      - application/json
+      description: Get token
+      parameters:
+      - description: Get Token
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RequestHeader'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      summary: Get Token
+      tags:
+      - Auth
+  /list-jadwal-operasi:
+    post:
+      consumes:
+      - application/json
+      description: Get Antrean Pasien
+      parameters:
+      - description: Get Antrean Pasien Request
+        in: body
+        name: antrian-pasien
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetAntrianRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.InsertPasienDTO'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Get Antrean Pasien
+      tags:
+      - Antrean
+  /pasien-baru:
+    post:
+      consumes:
+      - application/json
+      description: Check In Antrean
+      parameters:
+      - description: Pasien Baru
+        in: body
+        name: check-in
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterPasienBaruRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Check In Antrean
+      tags:
+      - Antrean
+  /sisa-antrean:
+    post:
+      consumes:
+      - application/json
+      description: Get Status Antrean Pasien
+      parameters:
+      - description: Get Status Antrean
+        in: body
+        name: status_antrean
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StatusAntrianRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Status Antrean
+      tags:
+      - Antrean
+  /status-antrean:
+    post:
+      consumes:
+      - application/json
+      description: Get Status Antrean Pasien
+      parameters:
+      - description: Get Status Antrean
+        in: body
+        name: status_antrean
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StatusAntrianRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Status Antrean
+      tags:
+      - Antrean
+  /status-antrean-farmasi:
+    post:
+      consumes:
+      - application/json
+      description: Status Antrean Farmasi
+      parameters:
+      - description: Get Antrean Farmasi Request
+        in: body
+        name: jadwal-operasi-pasien
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetAntreanFarmasiRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.StatusAntreanFarmasiResponse'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Status Antrean Farmasi
+      tags:
+      - Farmasi
+  /upload-file:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Transfer FIle
+      parameters:
+      - description: Transfer File
+        in: formData
+        name: file_transfer
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Transfer FIle
+      tags:
+      - File
+swagger: "2.0"

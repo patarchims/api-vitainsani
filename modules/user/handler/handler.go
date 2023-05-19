@@ -17,6 +17,15 @@ type UserHandler struct {
 	UserRepository entity.UserRepository
 }
 
+// @Summary			Get Token
+// @Description		Get token
+// @Tags			Auth
+// @Accept			json
+// @Produce			json
+// @Param			auth		body		dto.RequestHeader		true	"Get Token"
+// @Success			200			{object}  	helper.Response
+// @Failure      	201  		{array}  	helper.FailureResponse
+// @Router			/gettoken 	[get]
 func (uh *UserHandler) Login(c *gin.Context) {
 	type requestHeader struct {
 		Username string `header:"x-username" binding:"required"`

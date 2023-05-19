@@ -22,14 +22,18 @@ import (
 	repositoryMutiara "vincentcoreapi/modules/mutiara/repository"
 	mutiaraUseCase "vincentcoreapi/modules/mutiara/usecase"
 
+	// File Transfer
+	handlerFileTransfer "vincentcoreapi/modules/transfer/handler"
+
 	"github.com/joho/godotenv"
 )
 
 type Service struct {
-	UserHandler    *handlerUser.UserHandler
-	AntrianHandler *handlerAntrian.AntrianHandler
-	FarmasiHandler *handlerFarmasi.FarmasiHandler
-	MutiaraHandler *handlerMutiara.MutiaraHandler
+	UserHandler         *handlerUser.UserHandler
+	AntrianHandler      *handlerAntrian.AntrianHandler
+	FarmasiHandler      *handlerFarmasi.FarmasiHandler
+	MutiaraHandler      *handlerMutiara.MutiaraHandler
+	FileTransferHandler *handlerFileTransfer.TranferHandler
 }
 
 func RunApplication() {
@@ -63,12 +67,14 @@ func RunApplication() {
 	farmasiHandler := handlerFarmasi.FarmasiHandler{FarmasiUseCase: fu, FarmasiRepository: repoFarmasi, IFarmasiMapper: mapperFarmasi}
 	antrianHandler := handlerAntrian.AntrianHandler{AntrianUseCase: au, AntrianRepository: repoAntrian, IAntrianMapper: mapperAntrian}
 	mutiaraHandler := handlerMutiara.MutiaraHandler{MutiaraUseCase: mu}
+	fileTransferHandler := handlerFileTransfer.TranferHandler{}
 
 	service := &Service{
-		UserHandler:    &userHandler,
-		AntrianHandler: &antrianHandler,
-		FarmasiHandler: &farmasiHandler,
-		MutiaraHandler: &mutiaraHandler,
+		UserHandler:         &userHandler,
+		AntrianHandler:      &antrianHandler,
+		FarmasiHandler:      &farmasiHandler,
+		MutiaraHandler:      &mutiaraHandler,
+		FileTransferHandler: &fileTransferHandler,
 	}
 
 	// ROUTING APP
