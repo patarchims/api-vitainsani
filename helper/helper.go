@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"log"
+	"net/http"
 	"strings"
 
 	humanize "github.com/dustin/go-humanize"
@@ -77,4 +79,11 @@ func FormatRupiah(amount float64) string {
 	humanizeValue := humanize.CommafWithDigits(amount, 0)
 	stringValue := strings.Replace(humanizeValue, ",", ".", -1)
 	return "Rp " + stringValue
+}
+
+func LoggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Request: %s %s", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
+	})
 }

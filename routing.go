@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"os"
 	"vincentcoreapi/app/rest"
 	"vincentcoreapi/config"
@@ -8,6 +9,7 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
+	"github.com/gin-contrib/gzip"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -17,9 +19,11 @@ import (
 // ROUTING APPLICATION
 func (s *Service) RoutingAndListen() {
 
-	router := gin.Default()
+	gin.DefaultWriter = ioutil.Discard
+	gin.SetMode(gin.ReleaseMode)
 
-	gin.SetMode(gin.DebugMode)
+	router := gin.Default()
+	router.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedPathsRegexs([]string{".*"})))
 
 	// USER LOGGER MIDDLEWARE
 	router.Use(rest.CORSMiddleware())
@@ -44,6 +48,7 @@ func (s *Service) RoutingAndListen() {
 	apiProtected.POST("/get-jadwal-operasi", s.AntrianHandler.GetJadwalOperasi)
 	apiProtected.POST("/list-jadwal-operasi", s.AntrianHandler.GetKodeBookingOperasi)
 	apiProtected.POST("/ambil-antrean", s.AntrianHandler.AmbilAntrean)
+
 	// NEW FITUR, ANTREAN FARMASI
 	apiProtected.POST("/ambil-antrean-farmasi", s.FarmasiHandler.AmbilAntreanFarmasi)
 	apiProtected.POST("/status-antrean-farmasi", s.FarmasiHandler.StatusAntreanFarmasi)
@@ -56,8 +61,8 @@ func (s *Service) RoutingAndListen() {
 	// FILETRANFER
 	apiProtected.POST("/upload-file", s.FileTransferHandler.UploadFile)
 	apiPublic.GET("/file-directories", s.FileTransferHandler.UploadFile)
-
 	api.GET("api/prod/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
 	ginSwagger.WrapHandler(swaggerfiles.Handler,
 		ginSwagger.URL("http://localhost:6060/swagger/doc.json"),
 		ginSwagger.DefaultModelsExpandDepth(-1))
