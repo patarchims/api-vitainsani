@@ -410,13 +410,10 @@ func (ar *antrianRepository) GetDokterName(ctx context.Context, kodeDokter int) 
 }
 
 func (ar *antrianRepository) CheckKuota(ctx context.Context, tglPeriksa string, idDokter string, kuotaToday int) (isAvailable bool) {
-
 	var jmlhDaftar int64
 	var antrianOl antrian.AntrianOl
 
-	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ?", idDokter, tglPeriksa).
-		Find(&antrianOl).
-		Count(&jmlhDaftar)
+	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ?", idDokter, tglPeriksa).Find(&antrianOl).Count(&jmlhDaftar)
 
 	if resJmlhDaftar.Error != nil {
 		return false
@@ -483,12 +480,8 @@ func (ar *antrianRepository) CheckJamStart(ctx context.Context, tglPeriksa strin
 }
 
 func (ar *antrianRepository) CheckMedrek(ctx context.Context, nik string) (dprofilpasien antrian.Dprofilpasien, err error) {
-
-	query1 := `SELECT *  FROM his.dprofilpasien WHERE nik= ?`
-
-	err = ar.DB.WithContext(ctx).
-		Raw(query1, nik).
-		Scan(&dprofilpasien).Error
+	query1 := `SELECT * FROM his.dprofilpasien WHERE nik= ?`
+	err = ar.DB.WithContext(ctx).Raw(query1, nik).Scan(&dprofilpasien).Error
 
 	if err != nil {
 		return dprofilpasien, err
@@ -499,11 +492,7 @@ func (ar *antrianRepository) CheckMedrek(ctx context.Context, nik string) (dprof
 
 func (ar *antrianRepository) InsertAntreanMjkn(ctx context.Context, req dto.GetAntrianRequest, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error) {
 
-	// TODO : RS
-	// CHANGE RSHP :> RS HARAPAN
-	// CHANGE RSVI :> RS VITA INSANI
-	// change RSTP :> RS TIARA
-	// change METH :> RS METHODIST
+	// TODO : RUMAH SAKIT VITA INSANI
 
 	query1 := `
 		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
@@ -643,13 +632,6 @@ func (ar *antrianRepository) getTimeElapsed(ctx context.Context, tglPeriksa, kod
 	minutesToAdd := jumlahAntrean * estimasiPerPasien
 
 	timestampPelayanan := fmt.Sprintf("%s %s", tglPeriksa, jambuka)
-	fmt.Println("Timestamp")
-	fmt.Println("minute to add")
-	fmt.Println(minutesToAdd)
-	fmt.Println(timestampPelayanan)
-
-	// now := time.Now()
-
 	/**
 	 * jika daftar setelah jam buka maka $estimasi = $minutes_to_add + $jam_daftar
 	 * jika sebelumnya maka $estimasi = $minutes_to_add + $jam_buka
@@ -671,8 +653,7 @@ func (ar *antrianRepository) getTimeElapsed(ctx context.Context, tglPeriksa, kod
 }
 
 func (ar *antrianRepository) CariPoli(ctx context.Context, kdPoli string) (res antrian.Kpoli, err error) {
-	query := "SELECT * FROM his.kpoli WHERE bpjs = ? " +
-		"LIMIT 1"
+	query := "SELECT * FROM his.kpoli WHERE bpjs = ? LIMIT 1"
 	rs := ar.DB.WithContext(ctx).Raw(query, kdPoli).Scan(&res)
 	if rs.Error != nil {
 		return res, err

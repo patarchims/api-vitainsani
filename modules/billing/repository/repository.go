@@ -22,14 +22,13 @@ func NewAntrianRepository(db *gorm.DB) entity.BillingRepository {
 func (ar *billingRepository) CekPoli(ctx context.Context, value string) (isTrue bool, err error) {
 	kp := antrian.Kpoli{}
 
-	query := "SELECT bpjs " +
-		"FROM his.kpoli " +
-		"WHERE bpjs = ? " +
-		"LIMIT 1"
+	query := "SELECT bpjs FROM his.kpoli WHERE bpjs = ? LIMIT 1"
 	rs := ar.DB.WithContext(ctx).Raw(query, value).Scan(&kp)
+
 	if rs.Error != nil {
 		log.Println(ctx, "[Error Query]", rs.Error)
 	}
+
 	if rs.RowsAffected > 0 {
 		return true, err
 	}

@@ -37,6 +37,7 @@ func (mr *mutiaraRepository) GetGaji(ctx context.Context, userID string) (res []
 
 	query := "SELECT * FROM mutiara.dgaji  WHERE id=?;"
 	result := mr.DB.WithContext(ctx).Raw(query, userID).Scan(&res)
+
 	if result.Error != nil {
 		message := fmt.Sprintf("Error %s, Data tidak ditemukan", err.Error())
 		return res, errors.New(message)

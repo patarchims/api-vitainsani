@@ -18,8 +18,10 @@ func InitMysqlDB() *gorm.DB {
 		os.Getenv("MYSQL_DB_PORT"),
 		os.Getenv("MYSQL_DB_NAME"),
 	)
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
 	})
 
 	if err != nil {
