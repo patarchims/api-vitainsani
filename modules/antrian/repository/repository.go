@@ -582,15 +582,14 @@ func (ar *antrianRepository) InsertAntreanMjkn(ctx context.Context, req dto.GetA
 
 	response.Nomorantrean = result1.NoAntre
 	response.Angkaantrean = angkaAntrean
-	fmt.Println("Etimasi Dilayani")
-	fmt.Println(timeElapsed)
 
 	date, _ := time.Parse("2006-01-02 15:04:05", timeElapsed)
-	fmt.Println("Etimasi dilayani")
-	fmt.Println(date)
+
+	// LAKUKAN PERUBAHAN ETIMASI DILAYANI
+	theTime := time.Date(date.Year(), date.Month(), date.Day(), date.Hour(), date.Minute(), date.Second(), date.Nanosecond(), time.Local)
 
 	sisaKuota := kotaHariIni - jumlahAntrian
-	tanggal := date.Unix() * 1000
+	tanggal := theTime.Unix() * 1000
 	response.Estimasidilayani = int(tanggal)
 	response.Kodebooking = result1.Kobook
 	response.Namapoli = detailPoli.Namapoli
