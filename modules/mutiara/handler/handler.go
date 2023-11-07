@@ -25,7 +25,7 @@ func (ah *MutiaraHandler) GetDataGaji(c *gin.Context) {
 		return
 	}
 
-	data, err := ah.MutiaraUseCase.GetDataKaryawan(c, input.ID)
+	data, err := ah.MutiaraUseCase.GetDataKaryawanUsecase(input.ID)
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -40,7 +40,7 @@ func (ah *MutiaraHandler) GetDataGaji(c *gin.Context) {
 
 func (ah *MutiaraHandler) Pengajar(c *gin.Context) {
 
-	data, err := ah.MutiaraRepository.GetPengajar(c)
+	data, err := ah.MutiaraRepository.GetPengajarRepository()
 
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)

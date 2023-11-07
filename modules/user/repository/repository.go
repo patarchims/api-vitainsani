@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"vincentcoreapi/modules/user"
 	"vincentcoreapi/modules/user/entity"
 
@@ -18,8 +17,8 @@ func NewUserRepository(db *gorm.DB) entity.UserRepository {
 	}
 }
 
-func (ur *userRepository) GetByID(ctx context.Context, userID string) (user user.ApiUser, exist bool) {
-	rs := ur.DB.WithContext(ctx).First(&user, userID).RowsAffected
+func (ur *userRepository) GetByIDRepository(userID string) (user user.ApiUser, exist bool) {
+	rs := ur.DB.First(&user, userID).RowsAffected
 	if rs > 0 {
 		return user, true
 	} else {
@@ -27,8 +26,8 @@ func (ur *userRepository) GetByID(ctx context.Context, userID string) (user user
 	}
 }
 
-func (ur *userRepository) GetByUser(ctx context.Context, userName string) (user user.ApiUser, exist bool) {
-	rs := ur.DB.WithContext(ctx).Where("username = ? ", userName).First(&user).RowsAffected
+func (ur *userRepository) GetByUserRepository(userName string) (user user.ApiUser, exist bool) {
+	rs := ur.DB.Where("username = ? ", userName).First(&user).RowsAffected
 	if rs > 0 {
 		return user, true
 	} else {

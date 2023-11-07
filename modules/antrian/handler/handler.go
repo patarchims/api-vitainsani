@@ -46,7 +46,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 		return
 	}
 
-	validasi := ah.AntrianUseCase.ValidasiDate(c, payload.TanggalPeriksa)
+	validasi := ah.AntrianUseCase.ValidasiDateUsecase(payload.TanggalPeriksa)
 	if !validasi {
 		response := helper.APIResponseFailure("Format Tanggal Tidak Sesuai, format yang benar adalah yyyy-mm-dd", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -66,7 +66,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 		return
 	}
 
-	detailPoli, err := ah.AntrianRepository.CariPoli(c, payload.KodePoli)
+	detailPoli, err := ah.AntrianRepository.CariPoliRepository(payload.KodePoli)
 	if err != nil || detailPoli.Kodepoli == "" {
 		response := helper.APIResponseFailure("Poli tidak ditemukan", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -74,7 +74,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 		return
 	}
 
-	m, err := ah.AntrianUseCase.GetStatusAntrean(c, payload, detailPoli)
+	m, err := ah.AntrianUseCase.GetStatusAntreanUsecase(payload, detailPoli)
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -88,7 +88,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 }
 
 func (ah *AntrianHandler) ListAntrianToday(c *gin.Context) {
-	data, errs := ah.AntrianRepository.ListAntrianToday(c)
+	data, errs := ah.AntrianRepository.ListAntrianTodayRepository()
 
 	if errs != nil {
 		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
@@ -128,7 +128,7 @@ func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 		return
 	}
 
-	datas, errs := ah.AntrianRepository.GetSisaAntrean(c, *payload)
+	datas, errs := ah.AntrianRepository.GetSisaAntreanRepository(*payload)
 
 	if errs != nil || datas.Nomorantrean == "" {
 		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
@@ -167,7 +167,7 @@ func (ah *AntrianHandler) BatalAntrean(c *gin.Context) {
 		return
 	}
 
-	isSuccessBatal, err := ah.AntrianUseCase.BatalAntrean(c, *payload)
+	isSuccessBatal, err := ah.AntrianUseCase.BatalAntreanUsecase(*payload)
 	if err != nil || !isSuccessBatal {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -204,7 +204,7 @@ func (ah *AntrianHandler) CheckIn(c *gin.Context) {
 		return
 	}
 
-	isSuccess := ah.AntrianRepository.CheckIn(c, payload.Kodebooking, payload.Waktu)
+	isSuccess := ah.AntrianRepository.CheckInRepository(payload.Kodebooking, payload.Waktu)
 	if !isSuccess {
 		response := helper.APIResponseFailure("Gagal update", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -250,7 +250,7 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 	}
 
 	// REGISTRASI PASIEN BARU
-	result, err := ah.AntrianUseCase.RegisterPasienBaru(c, *payload)
+	result, err := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
 	if err != nil || result.Norm == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -287,8 +287,8 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 	}
 
 	// CEK FROMAT TANGGAL
-	validasi := ah.AntrianUseCase.ValidasiDate(c, payload.Tanggalakhir)
-	validasi1 := ah.AntrianUseCase.ValidasiDate(c, payload.Tanggalawal)
+	validasi := ah.AntrianUseCase.ValidasiDateUsecase(payload.Tanggalakhir)
+	validasi1 := ah.AntrianUseCase.ValidasiDateUsecase(payload.Tanggalawal)
 	if !validasi || !validasi1 {
 		response := helper.APIResponseFailure("Format Tanggal (YYYY-MM-DD)", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -309,7 +309,7 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 	}
 
 	m := map[string]any{}
-	jadwalOperasi, err := ah.AntrianRepository.GetJadwalOperasi(c, payload.Tanggalawal, payload.Tanggalakhir)
+	jadwalOperasi, err := ah.AntrianRepository.GetJadwalOperasiRepository(payload.Tanggalawal, payload.Tanggalakhir)
 	if err != nil || len(jadwalOperasi) == 0 {
 		message := fmt.Sprintf("Tidak ada jadwal operasi pada tanggal %s sampai %s", payload.Tanggalawal, payload.Tanggalakhir)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
@@ -318,7 +318,7 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 		return
 	}
 
-	jadwalOperasiMapper := ah.IAntrianMapper.ToJadwalOperasiDTO(jadwalOperasi, false)
+	jadwalOperasiMapper := ah.IAntrianMapper.ToJadwalOperasiDTOMapper(jadwalOperasi, false)
 	m["list"] = jadwalOperasiMapper
 
 	response := helper.APIResponse("Ok", http.StatusOK, "Ok", m)
@@ -351,7 +351,7 @@ func (ah *AntrianHandler) GetKodeBookingOperasi(c *gin.Context) {
 		return
 	}
 
-	jadwalOperasi, err := ah.AntrianUseCase.GetKodeBookingOperasiByNoPeserta(c, *payload)
+	jadwalOperasi, err := ah.AntrianUseCase.GetKodeBookingOperasiByNoPesertaUsecase(*payload)
 
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
@@ -388,7 +388,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 		return
 	}
 
-	detaiProfilPasien, err := ah.AntrianRepository.CheckMedrek(c, payload.Nik)
+	detaiProfilPasien, err := ah.AntrianRepository.CheckMedrekRepository(payload.Nik)
 	if err != nil || detaiProfilPasien.Id == "" {
 		message := fmt.Sprintf("%s belum terdaftar rekam medis, silahkan daftar terlebih dahulu", payload.Nomorkartu)
 		response := helper.APIResponseFailure(message, http.StatusAccepted)
@@ -397,7 +397,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 		return
 	}
 
-	detailPoli, err := ah.AntrianRepository.CariPoli(c, payload.Kodepoli)
+	detailPoli, err := ah.AntrianRepository.CariPoliRepository(payload.Kodepoli)
 	if err != nil || detailPoli.Kodepoli == "" {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
@@ -406,7 +406,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 		return
 	}
 
-	result, err := ah.AntrianUseCase.AmbilAntrean(c, *payload, detailPoli, detaiProfilPasien)
+	result, err := ah.AntrianUseCase.AmbilAntreanUsecase(*payload, detailPoli, detaiProfilPasien)
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)

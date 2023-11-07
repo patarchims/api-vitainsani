@@ -45,7 +45,7 @@ func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 	}
 
 	// AMBIL ANTREAN USECASE
-	farmasi, err := ah.FarmasiUseCase.AmbilAntreanFarmasi(c, *payload)
+	farmasi, err := ah.FarmasiUseCase.AmbilAntreanFarmasiUsecase(*payload)
 	if err != nil || farmasi.JenisResep == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -82,7 +82,7 @@ func (ah *FarmasiHandler) StatusAntreanFarmasi(c *gin.Context) {
 		return
 	}
 
-	status, err := ah.FarmasiUseCase.StatusAntreanFarmasi(c, *payload)
+	status, err := ah.FarmasiUseCase.StatusAntreanFarmasiUsecase(*payload)
 	if err != nil || status.JenisResep == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)

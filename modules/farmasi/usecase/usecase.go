@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"vincentcoreapi/modules/farmasi/dto"
@@ -21,9 +20,9 @@ func FarmasiUseCase(fr entity.FarmasiRepository, IFarmasiMapper mapper.IFarmasiM
 	}
 }
 
-func (fr *farmasiUseCase) AmbilAntreanFarmasi(ctx context.Context, req dto.GetAntreanFarmasiRequest) (res dto.AmbilAntreanFarmasiResponse, err error) {
+func (fr *farmasiUseCase) AmbilAntreanFarmasiUsecase(req dto.GetAntreanFarmasiRequest) (res dto.AmbilAntreanFarmasiResponse, err error) {
 	// CEK APAKAH KODE BOOKING ADA DI REKAM ANTERAN OL,
-	cekKodeBooking, err := fr.farmasiRepository.CekKodeBooking(ctx, req)
+	cekKodeBooking, err := fr.farmasiRepository.CekKodeBookingRepository(req)
 
 	if err != nil || cekKodeBooking.NoBook == "" {
 		message := fmt.Sprintf("Kodebooking %s tidak ditemukan", req.Kodebooking)
@@ -31,7 +30,7 @@ func (fr *farmasiUseCase) AmbilAntreanFarmasi(ctx context.Context, req dto.GetAn
 	}
 
 	// CEK APAKAH SUDAH PERNAH MENGAMBIL ANTREAN
-	cekAmbilAntran, _ := fr.farmasiRepository.CekKodeBookingAntreanResep(ctx, req)
+	cekAmbilAntran, _ := fr.farmasiRepository.CekKodeBookingAntreanResepRepository(req)
 	if len(cekAmbilAntran.KodeBooking) > 0 {
 		message := fmt.Sprintf("Antrean dengan Kodebooking %s, hanya dapat diambil satu kali", req.Kodebooking)
 		return res, errors.New(message)
@@ -40,7 +39,7 @@ func (fr *farmasiUseCase) AmbilAntreanFarmasi(ctx context.Context, req dto.GetAn
 	// JIKA DI TEMUKAN,
 	// SIMPAN ANTREAN PADA TABEL AMBIL ANTREAN FARMASI
 	// POSFAR, ANTRAN RESEP
-	insertData, errs := fr.farmasiRepository.InsertAntreanFarmasi(ctx, cekKodeBooking)
+	insertData, errs := fr.farmasiRepository.InsertAntreanFarmasiRepository(cekKodeBooking)
 
 	if errs != nil || insertData.Mrn == "" {
 		message := fmt.Sprintf("Kodebooking %s, gagal ambil antrean", req.Kodebooking)
@@ -53,9 +52,9 @@ func (fr *farmasiUseCase) AmbilAntreanFarmasi(ctx context.Context, req dto.GetAn
 	return mapper, nil
 }
 
-func (fr *farmasiUseCase) StatusAntreanFarmasi(ctx context.Context, req dto.GetAntreanFarmasiRequest) (res dto.StatusAntreanFarmasiResponse, err error) {
+func (fr *farmasiUseCase) StatusAntreanFarmasiUsecase(req dto.GetAntreanFarmasiRequest) (res dto.StatusAntreanFarmasiResponse, err error) {
 	// CEK APAKAH KODE BOOKING ADA DI ANTREAN RESEP
-	cekKodeBooking, err := fr.farmasiRepository.CekKodeBookingAntreanResep(ctx, req)
+	cekKodeBooking, err := fr.farmasiRepository.CekKodeBookingAntreanResepRepository(req)
 
 	if err != nil || cekKodeBooking.KodeBooking == "" {
 		message := fmt.Sprintf("Kodebooking %s tidak ditemukan", req.Kodebooking)
@@ -63,7 +62,7 @@ func (fr *farmasiUseCase) StatusAntreanFarmasi(ctx context.Context, req dto.GetA
 	}
 
 	// QUERY STATUS ANTREAN
-	statusAntrea, _ := fr.farmasiRepository.StatusAntreanFarmasi(ctx)
+	statusAntrea, _ := fr.farmasiRepository.StatusAntreanFarmasiRepository()
 
 	// MAPPING INSERT ANTREAN FARMASI
 	mapper := fr.IFarmasiMapper.ToStatusAntranFarmasiResponse(cekKodeBooking, statusAntrea)

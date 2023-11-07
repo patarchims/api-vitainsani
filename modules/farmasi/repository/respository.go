@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"fmt"
 	"strconv"
 	"strings"
@@ -23,10 +22,10 @@ func NewFarmasiRepository(db *gorm.DB) entity.FarmasiRepository {
 	}
 }
 
-func (fr *farmasiRepository) CekKodeBooking(ctx context.Context, req dto.GetAntreanFarmasiRequest) (res farmasi.AntreanOL, err error) {
+func (fr *farmasiRepository) CekKodeBookingRepository(req dto.GetAntreanFarmasiRequest) (res farmasi.AntreanOL, err error) {
 
 	query := "SELECT * FROM rekam.antrian_ol WHERE no_book=? LIMIT 1"
-	rs := fr.DB.WithContext(ctx).Raw(query, req.Kodebooking).Scan(&res)
+	rs := fr.DB.Raw(query, req.Kodebooking).Scan(&res)
 
 	if rs.Error != nil {
 		return res, err
@@ -39,10 +38,10 @@ func (fr *farmasiRepository) CekKodeBooking(ctx context.Context, req dto.GetAntr
 	return res, err
 }
 
-func (fr *farmasiRepository) InsertAntreanFarmasi(ctx context.Context, cekKodeBooking farmasi.AntreanOL) (res farmasi.AntreanResep, err error) {
+func (fr *farmasiRepository) InsertAntreanFarmasiRepository(cekKodeBooking farmasi.AntreanOL) (res farmasi.AntreanResep, err error) {
 
 	// GET LAST  TIME ELAPSED
-	lastTime, _ := fr.LasTimeElapsed(ctx)
+	lastTime, _ := fr.LasTimeElapsed()
 	var toTime time.Time
 	// fmt.Println("LAST TIME")
 	fmt.Println(lastTime)
@@ -60,7 +59,7 @@ func (fr *farmasiRepository) InsertAntreanFarmasi(ctx context.Context, cekKodeBo
 
 	// INSERT ANTREAN FARMASI
 	waktu := time.Now().Format("2006-01-02")
-	antre, err := fr.StatusAntreanFarmasi(ctx)
+	antre, err := fr.StatusAntreanFarmasiRepository()
 	fmt.Println(antre)
 	var angka int
 	var huruf string
@@ -122,11 +121,11 @@ func (fr *farmasiRepository) InsertAntreanFarmasi(ctx context.Context, cekKodeBo
 	return data, nil
 }
 
-func (fr *farmasiRepository) LasTimeElapsed(ctx context.Context) (res farmasi.TimeElapsed, err error) {
+func (fr *farmasiRepository) LasTimeElapsed() (res farmasi.TimeElapsed, err error) {
 	now := time.Now().Format("2006-01-02")
 	query := "SELECT time_elapsed , no_antrean_angka from posfar.antrean_resep WHERE    tanggal=? ORDER BY no_antrean_angka DESC  LIMIT 1"
 
-	rs := fr.DB.WithContext(ctx).Raw(query, now).Scan(&res)
+	rs := fr.DB.Raw(query, now).Scan(&res)
 
 	fmt.Println(rs)
 
@@ -141,13 +140,13 @@ func (fr *farmasiRepository) LasTimeElapsed(ctx context.Context) (res farmasi.Ti
 	return res, rs.Error
 }
 
-func (fr *farmasiRepository) CekKodeBookingAntreanResep(ctx context.Context, req dto.GetAntreanFarmasiRequest) (res farmasi.AntreanResep, err error) {
+func (fr *farmasiRepository) CekKodeBookingAntreanResepRepository(req dto.GetAntreanFarmasiRequest) (res farmasi.AntreanResep, err error) {
 
 	value := farmasi.AntreanResep{}
 
 	query := "SELECT * FROM posfar.antrean_resep WHERE  kode_booking_ref = ? LIMIT 1"
 
-	rs := fr.DB.WithContext(ctx).Raw(query, req.Kodebooking).Scan(&value)
+	rs := fr.DB.Raw(query, req.Kodebooking).Scan(&value)
 
 	fmt.Println(rs)
 
@@ -162,7 +161,7 @@ func (fr *farmasiRepository) CekKodeBookingAntreanResep(ctx context.Context, req
 	return res, rs.Error
 }
 
-func (fr *farmasiRepository) StatusAntreanFarmasi(ctx context.Context) (res farmasi.StatusAntrean, err error) {
+func (fr *farmasiRepository) StatusAntreanFarmasiRepository() (res farmasi.StatusAntrean, err error) {
 	// TANGGAL SEKARANG
 	now := time.Now().Format("2006-01-02")
 
@@ -170,7 +169,7 @@ func (fr *farmasiRepository) StatusAntreanFarmasi(ctx context.Context) (res farm
 
 	query := "SELECT no_antrean, no_antrean_angka, tanggal, kode_booking, SUM(dilayani=?) AS sisaantrean, SUM(dilayani=?) AS antreanpanggil, COUNT(dilayani) AS totalantrean FROM posfar.antrean_resep WHERE  tanggal=?"
 
-	rs := fr.DB.WithContext(ctx).Raw(query, "false", "true", now).Scan(&res)
+	rs := fr.DB.Raw(query, "false", "true", now).Scan(&res)
 
 	fmt.Println(rs)
 

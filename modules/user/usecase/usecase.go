@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"context"
 	"vincentcoreapi/modules/user"
 	"vincentcoreapi/modules/user/entity"
 )
@@ -16,7 +15,7 @@ func NewUserUseCase(ur entity.UserRepository) entity.UserUseCase {
 	}
 }
 
-func (uu *userUseCase) GetByUser(ctx context.Context, userName string) (user user.ApiUser, exist bool) {
-	user, exist = uu.userRepository.GetByUser(ctx, userName)
+func (uu *userUseCase) GetByUserUsecase(userName string) (user user.ApiUser, exist bool) {
+	user, exist = uu.userRepository.GetByUserRepository(userName)
 	return
 }

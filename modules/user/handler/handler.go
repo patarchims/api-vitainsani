@@ -43,7 +43,8 @@ func (uh *UserHandler) Login(c *gin.Context) {
 		return
 	}
 
-	user, exist := uh.UserRepository.GetByUser(c, r.Username)
+	user, exist := uh.UserRepository.GetByUserRepository(r.Username)
+
 	if !exist {
 		response := helper.APIResponseFailure("Username atau Password Tidak Sesuai", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)

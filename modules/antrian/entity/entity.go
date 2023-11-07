@@ -1,57 +1,47 @@
 package entity
 
 import (
-	"context"
 	"vincentcoreapi/modules/antrian"
 	"vincentcoreapi/modules/antrian/dto"
 )
 
 // AntrianUseCase
 type AntrianUseCase interface {
-	GetStatusAntrean(ctx context.Context, payload *dto.StatusAntrianRequest, detailPoli antrian.Kpoli) (res dto.StatusAntreanDTO, err error)
-	GetMobileJknByKodebooking(ctx context.Context, req dto.GetSisaAntrianRequest) (res map[string]any, err error)
-	BatalAntrean(ctx context.Context, req dto.BatalAntreanRequest) (isSuccessBatal bool, err error)
-	CheckedIn(ctx context.Context, req dto.CheckInRequest) (isSuccess bool, err error)
-	RegisterPasienBaru(ctx context.Context, req dto.RegisterPasienBaruRequest) (rres dto.ResPasienBaru, err error)
-	GetKodeBookingOperasiByNoPeserta(ctx context.Context, req dto.JadwalOperasiPasienRequest) (res map[string]any, err error)
-	AmbilAntrean(ctx context.Context, req dto.GetAntrianRequest, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error)
-	ValidasiDate(ctx context.Context, req string) (isTrue bool)
+	GetStatusAntreanUsecase(payload *dto.StatusAntrianRequest, detailPoli antrian.Kpoli) (res dto.StatusAntreanDTO, err error)
+	GetMobileJknByKodebookingUsecase(req dto.GetSisaAntrianRequest) (res map[string]any, err error)
+	BatalAntreanUsecase(req dto.BatalAntreanRequest) (isSuccessBatal bool, err error)
+	CheckedInUsecase(req dto.CheckInRequest) (isSuccess bool, err error)
+	RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRequest) (rres dto.ResPasienBaru, err error)
+	GetKodeBookingOperasiByNoPesertaUsecase(req dto.JadwalOperasiPasienRequest) (res map[string]any, err error)
+	AmbilAntreanUsecase(req dto.GetAntrianRequest, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error)
+	ValidasiDateUsecase(req string) (isTrue bool)
 }
 
 // AntrianRepository
 type AntrianRepository interface {
-	ListAntrianToday(ctx context.Context) (res []antrian.AntrianOl, err error)
-	CekPoli(ctx context.Context, value string) (isTrue bool, err error)
-	DetailPoli(ctx context.Context, params map[string]interface{}) (res map[string]interface{}, err error)
-	LastCalled(ctx context.Context, payload *dto.StatusAntrianRequest) (res antrian.LastCalled, err error)
-	GetKodeDokterRs(ctx context.Context, params map[string]interface{}) (res map[string]interface{}, err error)
-	JmlAntrean(ctx context.Context, payload *dto.StatusAntrianRequest, kodeDokter string) (res int, err error)
-	GetKodeDokterJadwalRs(ctx context.Context, day string, params map[string]interface{}) (res bool, err error)
-	DetailTaripDokterByMapingAntrol(ctx context.Context, mapingAntrol int) (res antrian.KtaripDokter, err error)
-	CariPoli(ctx context.Context, kdPoli string) (res antrian.Kpoli, err error)
+	ListAntrianTodayRepository() (res []antrian.AntrianOl, err error)
+	CekPoliRepository(value string) (isTrue bool, err error)
+	DetailPoliRepository(params map[string]interface{}) (res map[string]interface{}, err error)
+	LastCalledRepository(payload *dto.StatusAntrianRequest) (res antrian.LastCalled, err error)
+	GetKodeDokterRsRepository(params map[string]interface{}) (res map[string]interface{}, err error)
+	JmlAntreanRepository(payload *dto.StatusAntrianRequest, kodeDokter string) (res int, err error)
+	GetKodeDokterJadwalRsRepository(day string, params map[string]interface{}) (res bool, err error)
+	DetailTaripDokterByMapingAntrolRepository(mapingAntrol int) (res antrian.KtaripDokter, err error)
+	CariPoliRepository(kdPoli string) (res antrian.Kpoli, err error)
 
-	GetMobileJknByKodebooking(ctx context.Context, kodebooking string) (
-		res dto.GetMobileJknByKodebookingDTO, err error)
-	GetSisaAntrean(ctx context.Context, req dto.GetSisaAntrianRequest) (
-		res dto.SisaAntreanResnonse, err error)
-	GetAntreanByKodeBooking(ctx context.Context, kodeBooking string) (
-		antrianOL antrian.AntrianOl, err error)
-	BatalAntrean(ctx context.Context, kodeBooking, keterangan string) (isSuccessBatal bool)
-	CheckIn(ctx context.Context, kodeBooking string, waktu int64) (isSuccess bool)
-	CheckPasienDuplikat(ctx context.Context, noka string) (isDuplicate bool)
-	InsertPasienBaru(ctx context.Context, pasienBaru antrian.AntrianOl) (
-		isSuccess bool, norm string)
-	GetJadwalOperasi(ctx context.Context, tanggalAwal, tanggalAkhir string) (
-		jadopOls []antrian.JadopOl, err error)
-	GetKodeBookingOperasiByNoPeserta(ctx context.Context, noPeserta string) (
-		jadopOls []antrian.JadopOl, err error)
-	CheckAntrean(ctx context.Context, nomorKartu, tglPeriksa, kodePoli string) (
-		jumlah int64, err error)
-	CheckDokterLibur(ctx context.Context, tglPeriksa string, kodeDokter string) (
-		dokterLiburs antrian.LiburOl, err error)
-	CheckJadwalPraktek(ctx context.Context, tglPeriksa string, idDokter string) (
-		jadwal int64, err error)
-	CheckKuota(ctx context.Context, tglPeriksa string, idDokter string, kuotaToday int) (isAvailable bool)
-	CheckMedrek(ctx context.Context, noRM string) (dprofilpasien antrian.Dprofilpasien, err error)
-	InsertAntreanMjkn(ctx context.Context, req dto.GetAntrianRequest, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error)
+	GetMobileJknByKodebookingRepository(kodebooking string) (res dto.GetMobileJknByKodebookingDTO, err error)
+	GetSisaAntreanRepository(req dto.GetSisaAntrianRequest) (res dto.SisaAntreanResnonse, err error)
+	GetAntreanByKodeBookingRepository(kodeBooking string) (antrianOL antrian.AntrianOl, err error)
+	BatalAntreanRepository(kodeBooking, keterangan string) (isSuccessBatal bool)
+	CheckInRepository(kodeBooking string, waktu int64) (isSuccess bool)
+	CheckPasienDuplikatRepository(noka string) (isDuplicate bool)
+	InsertPasienBaruRepository(pasienBaru antrian.AntrianOl) (isSuccess bool, norm string)
+	GetJadwalOperasiRepository(tanggalAwal, tanggalAkhir string) (jadopOls []antrian.JadopOl, err error)
+	GetKodeBookingOperasiByNoPesertaRepository(noPeserta string) (jadopOls []antrian.JadopOl, err error)
+	CheckAntreanRepository(nomorKartu, tglPeriksa, kodePoli string) (jumlah int64, err error)
+	CheckDokterLiburRepository(tglPeriksa string, kodeDokter string) (dokterLiburs antrian.LiburOl, err error)
+	CheckJadwalPraktekRepository(tglPeriksa string, idDokter string) (jadwal int64, err error)
+	CheckKuotaRepository(tglPeriksa string, idDokter string, kuotaToday int) (isAvailable bool)
+	CheckMedrekRepository(noRM string) (dprofilpasien antrian.Dprofilpasien, err error)
+	InsertAntreanMjknRepository(req dto.GetAntrianRequest, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error)
 }

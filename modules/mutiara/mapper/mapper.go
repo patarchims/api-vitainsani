@@ -14,7 +14,7 @@ func NewMutiaranMapperImpl() entity.MutiaraMapper {
 	return &MutiaraMapperImpl{}
 }
 
-func (m *MutiaraMapperImpl) ToDataGaji(gaji []mutiara.DGaji) (res []dto.ResDataGaji) {
+func (m *MutiaraMapperImpl) ToDataGajiMapper(gaji []mutiara.DGaji) (res []dto.ResDataGaji) {
 	for _, V := range gaji {
 		res = append(res, dto.ResDataGaji{
 			Jumlah:    helper.FormatRupiah(V.Jumlah),

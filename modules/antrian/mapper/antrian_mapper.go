@@ -14,7 +14,7 @@ func NewAntrianMapperImpl() IAntrianMapper {
 	return &AntrianMapperImpl{}
 }
 
-func (m *AntrianMapperImpl) ToAntrianOlModel(data dto.RegisterPasienBaruRequest) (antrianOL antrian.AntrianOl) {
+func (m *AntrianMapperImpl) ToAntrianOlModelMapper(data dto.RegisterPasienBaruRequest) (antrianOL antrian.AntrianOl) {
 	return antrian.AntrianOl{
 		Nik:             data.Nik,
 		Noka:            data.Nomorkartu,
@@ -41,11 +41,11 @@ func (m *AntrianMapperImpl) ToAntrianOlModel(data dto.RegisterPasienBaruRequest)
 	}
 }
 
-func (m *AntrianMapperImpl) ToSisaAntranDTO(res map[string]any) (data dto.SisaANtreanDTO) {
+func (m *AntrianMapperImpl) ToSisaAntranDTOMapepr(res map[string]any) (data dto.SisaANtreanDTO) {
 	return data
 }
 
-func (m *AntrianMapperImpl) ToJadwalOperasiDTO(jadopOls []antrian.JadopOl, isForPasien bool) (jadopOlsDTO []dto.JadwalOperasiDTO) {
+func (m *AntrianMapperImpl) ToJadwalOperasiDTOMapper(jadopOls []antrian.JadopOl, isForPasien bool) (jadopOlsDTO []dto.JadwalOperasiDTO) {
 	for _, V := range jadopOls {
 
 		terlaksana, _ := strconv.Atoi(V.Status)

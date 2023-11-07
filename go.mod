@@ -12,7 +12,6 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/rs/zerolog v1.29.1
 	golang.org/x/crypto v0.5.0
-	golang.org/x/net v0.10.0
 	gorm.io/driver/mysql v1.3.6
 	gorm.io/gorm v1.23.8
 )
@@ -23,6 +22,7 @@ require (
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
+	golang.org/x/net v0.10.0 // indirect
 )
 
 require (

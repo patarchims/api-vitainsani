@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"context"
 	"vincentcoreapi/modules/mutiara/entity"
 )
 
@@ -17,12 +16,12 @@ func MutiaraUseCase(fr entity.MutiaraRepository, mm entity.MutiaraMapper) entity
 	}
 }
 
-func (mu *mutiaraUseCase) GetDataKaryawan(ctx context.Context, userID string) (data interface{}, err error) {
+func (mu *mutiaraUseCase) GetDataKaryawanUsecase(userID string) (data interface{}, err error) {
 	m := map[string]any{}
-	gaji, _ := mu.mutiaraRepository.GetGaji(ctx, userID)
-	karyawan, _ := mu.mutiaraRepository.GetKaryawan(ctx, userID)
+	gaji, _ := mu.mutiaraRepository.GetGajiRepository(userID)
+	karyawan, _ := mu.mutiaraRepository.GetKaryawanRepository(userID)
 
-	gajiMapper := mu.mutiaraMapper.ToDataGaji(gaji)
+	gajiMapper := mu.mutiaraMapper.ToDataGajiMapper(gaji)
 
 	if err != nil {
 		return m, err
