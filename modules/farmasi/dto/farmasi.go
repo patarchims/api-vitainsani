@@ -18,4 +18,9 @@ type (
 		AntreanPanggil int    `json:"antreanpanggil"`
 		Keterangan     string `json:"keterangan"`
 	}
+
+	GetAntreanFarmasiRequestV2 struct {
+		Kodebooking string `json:"kodebooking" validate:"required"`
+	}
+	//======
 )
