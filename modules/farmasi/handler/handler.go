@@ -53,7 +53,7 @@ func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", farmasi)
+	response := helper.APIResponse("Ok", http.StatusOK, farmasi)
 	telegram.RunSuccessMessage("AMBIL ANTREAN FARMASI", response, c, data)
 	c.JSON(http.StatusOK, response)
 
@@ -91,7 +91,7 @@ func (ah *FarmasiHandler) StatusAntreanFarmasi(c *gin.Context) {
 	}
 
 	// MAPPER
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", status)
+	response := helper.APIResponse("Ok", http.StatusOK, status)
 	telegram.RunSuccessMessage("STATUS ANTREAN FARMASI", response, c, data)
 	c.JSON(http.StatusOK, response)
 

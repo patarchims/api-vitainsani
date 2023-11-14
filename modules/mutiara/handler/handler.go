@@ -33,7 +33,7 @@ func (ah *MutiaraHandler) GetDataGaji(c *gin.Context) {
 	}
 
 	// MAPPER
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", data)
+	response := helper.APIResponse("Ok", http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 
 }
@@ -55,6 +55,6 @@ func (ah *MutiaraHandler) Pengajar(c *gin.Context) {
 	}
 
 	// MAPPER
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", data)
+	response := helper.APIResponse("Ok", http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 }

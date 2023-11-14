@@ -82,7 +82,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", m)
+	response := helper.APIResponse("Ok", http.StatusOK, m)
 	telegram.RunSuccessMessage("GET STATUS ANTREAN", response, c, data)
 	c.JSON(http.StatusOK, response)
 }
@@ -102,7 +102,7 @@ func (ah *AntrianHandler) ListAntrianToday(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", data)
+	response := helper.APIResponse("Ok", http.StatusOK, data)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -137,7 +137,7 @@ func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", datas)
+	response := helper.APIResponse("Ok", http.StatusOK, datas)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("POST SISA ANTREAN", response, c, data)
 
@@ -258,7 +258,7 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, "Ok", result)
+	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, result)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("POST PASIEN BARU", response, c, data)
 }
@@ -321,7 +321,7 @@ func (ah *AntrianHandler) GetJadwalOperasi(c *gin.Context) {
 	jadwalOperasiMapper := ah.IAntrianMapper.ToJadwalOperasiDTOMapper(jadwalOperasi, false)
 	m["list"] = jadwalOperasiMapper
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", m)
+	response := helper.APIResponse("Ok", http.StatusOK, m)
 	telegram.RunSuccessMessage("POST GET JADWAL OPERASI", response, c, data)
 	c.JSON(http.StatusOK, response)
 
@@ -360,7 +360,7 @@ func (ah *AntrianHandler) GetKodeBookingOperasi(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", jadwalOperasi)
+	response := helper.APIResponse("Ok", http.StatusOK, jadwalOperasi)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("POST JADWAL OPERASI", response, c, data)
 }
@@ -414,7 +414,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", result)
+	response := helper.APIResponse("Ok", http.StatusOK, result)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("POST AMBIL ANTREAN", response, c, data)
 }

@@ -10,11 +10,13 @@ import (
 	"github.com/goccy/go-json"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type UserHandler struct {
 	UserUseCase    entity.UserUseCase
 	UserRepository entity.UserRepository
+	Logging        *logrus.Logger
 }
 
 // @Summary			Get Token
@@ -60,7 +62,7 @@ func (uh *UserHandler) Login(c *gin.Context) {
 	}
 
 	m, _ := rest.GenerateTokenPair(user)
-	response := helper.APIResponse("Ok", http.StatusOK, "Ok", m)
+	response := helper.APIResponse("Ok", http.StatusOK, m)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("GET TOKEN", response, c, data)
 }

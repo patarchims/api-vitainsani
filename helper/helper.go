@@ -38,11 +38,10 @@ func APIResponseFailure(message string, code int) FailureResponse {
 	return jsonResponse
 }
 
-func APIResponse(message string, code int, status string, data interface{}) Response {
+func APIResponse(message string, code int, data interface{}) Response {
 	meta := Meta{
 		Message: message,
 		Code:    code,
-		// Status:  status,
 	}
 
 	jsonResponse := Response{
