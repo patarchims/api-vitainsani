@@ -21,7 +21,6 @@ import (
 	mutiaraMapper "vincentcoreapi/modules/mutiara/mapper"
 	repositoryMutiara "vincentcoreapi/modules/mutiara/repository"
 	mutiaraUseCase "vincentcoreapi/modules/mutiara/usecase"
-	"vincentcoreapi/pkg/logs"
 
 	// File Transfer
 	handlerFileTransfer "vincentcoreapi/modules/transfer/handler"
@@ -46,7 +45,7 @@ func RunApplication() {
 	}
 
 	db := config.InitMysqlDB()
-	logging := logs.NewLogger()
+	// logging := logs.NewLogger()
 
 	repoUser := repositoryUser.NewUserRepository(db)
 	repoAntrian := repositoryAntrian.NewAntrianRepository(db)
@@ -80,5 +79,6 @@ func RunApplication() {
 	}
 
 	// ROUTING APP
-	service.RoutingFiberAndListen(logging)
+	// service.RoutingFiberAndListen(logging)
+	service.RoutingAndListen()
 }
