@@ -15,6 +15,7 @@ import (
 	handlerUser "vincentcoreapi/modules/user/handler"
 	repositoryUser "vincentcoreapi/modules/user/repository"
 	userUseCase "vincentcoreapi/modules/user/usecase"
+	"vincentcoreapi/pkg/logs"
 
 	// Mutiara
 	handlerMutiara "vincentcoreapi/modules/mutiara/handler"
@@ -45,7 +46,7 @@ func RunApplication() {
 	}
 
 	db := config.InitMysqlDB()
-	// logging := logs.NewLogger()
+	logging := logs.NewLogger()
 
 	repoUser := repositoryUser.NewUserRepository(db)
 	repoAntrian := repositoryAntrian.NewAntrianRepository(db)
@@ -79,6 +80,6 @@ func RunApplication() {
 	}
 
 	// ROUTING APP
-	// service.RoutingFiberAndListen(logging)
-	service.RoutingAndListen()
+	service.RoutingFiberAndListen(logging)
+	// service.RoutingAndListen()
 }
