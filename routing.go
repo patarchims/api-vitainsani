@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 	"vincentcoreapi/app/rest"
-	"vincentcoreapi/config"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -27,7 +26,6 @@ func (s *Service) RoutingAndListen() {
 
 	// USER LOGGER MIDDLEWARE
 	router.Use(rest.CORSMiddleware())
-	router.Use(config.GinBodyLogMiddleware)
 	router.Use(static.Serve("/apps/files", static.LocalFile("./files", true)))
 
 	router.Use(rest.CORSMiddleware())
