@@ -2,11 +2,11 @@
     "swagger": "2.0",
     "info": {
         "description": "Documentasi API yang dapat diakses dari luar, untuk terhubung ke Aplikasi System Informasi Manajemen Rumah Sakit Vita Insani",
-        "title": "Rumah Sakit Vita Insani Pematangsiantar API",
+        "title": "Rumah Sakit Harapan Pematangsiantar API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Vincentcore IT Consultant",
-            "url": "https://www.vincentcore.co.id",
+            "url": "https://www.vincentcore.co.id/",
             "email": "vincentpmk@gmail.com"
         },
         "license": {
@@ -15,9 +15,57 @@
         },
         "version": "1.0"
     },
-    "host": "https://rsvitainsani.vincentcore.co.id:28444",
-    "basePath": "/api/v1",
+    "host": "https://rsharapan.vincentcore.co.id:28444",
+    "basePath": "/",
     "paths": {
+        "/ambil-antrean": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Ambil Antrean Pasien",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Antrean"
+                ],
+                "summary": "Ambil Antrean Pasien",
+                "parameters": [
+                    {
+                        "description": "Get Antrean Pasien Request",
+                        "name": "antrian-pasien",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetAntrianRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertPasienDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/helper.FailureResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ambil-antrean-farmasi": {
             "post": {
                 "security": [
@@ -260,7 +308,7 @@
                         "BasicAuth": []
                     }
                 ],
-                "description": "Get Antrean Pasien",
+                "description": "Get List Jadwal Operasi Pasien Pasien",
                 "consumes": [
                     "application/json"
                 ],
@@ -270,15 +318,15 @@
                 "tags": [
                     "Antrean"
                 ],
-                "summary": "Get Antrean Pasien",
+                "summary": "Get List Jadwal Operasi Pasien Pasien",
                 "parameters": [
                     {
-                        "description": "Get Antrean Pasien Request",
-                        "name": "antrian-pasien",
+                        "description": "Get Booking Operasi",
+                        "name": "jadwal-operasi-pasien",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetAntrianRequest"
+                            "$ref": "#/definitions/dto.JadwalOperasiPasienRequest"
                         }
                     }
                 ],
@@ -286,7 +334,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.InsertPasienDTO"
+                            "$ref": "#/definitions/helper.Response"
                         }
                     },
                     "201": {
@@ -356,7 +404,7 @@
                         "BasicAuth": []
                     }
                 ],
-                "description": "Get Status Antrean Pasien",
+                "description": "Get Sisa Antrean",
                 "consumes": [
                     "application/json"
                 ],
@@ -366,7 +414,7 @@
                 "tags": [
                     "Antrean"
                 ],
-                "summary": "Status Antrean",
+                "summary": "Sisa Antrean",
                 "parameters": [
                     {
                         "description": "Get Status Antrean",

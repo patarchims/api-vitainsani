@@ -13,7 +13,7 @@ const docTemplate = `{
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Vincentcore IT Consultant",
-            "url": "https://www.vincentcore.co.id",
+            "url": "https://www.vincentcore.co.id/",
             "email": "vincentpmk@gmail.com"
         },
         "license": {
@@ -25,6 +25,54 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ambil-antrean": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Ambil Antrean Pasien",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Antrean"
+                ],
+                "summary": "Ambil Antrean Pasien",
+                "parameters": [
+                    {
+                        "description": "Get Antrean Pasien Request",
+                        "name": "antrian-pasien",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetAntrianRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InsertPasienDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/helper.FailureResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ambil-antrean-farmasi": {
             "post": {
                 "security": [
@@ -267,7 +315,7 @@ const docTemplate = `{
                         "BasicAuth": []
                     }
                 ],
-                "description": "Get Antrean Pasien",
+                "description": "Get List Jadwal Operasi Pasien Pasien",
                 "consumes": [
                     "application/json"
                 ],
@@ -277,15 +325,15 @@ const docTemplate = `{
                 "tags": [
                     "Antrean"
                 ],
-                "summary": "Get Antrean Pasien",
+                "summary": "Get List Jadwal Operasi Pasien Pasien",
                 "parameters": [
                     {
-                        "description": "Get Antrean Pasien Request",
-                        "name": "antrian-pasien",
+                        "description": "Get Booking Operasi",
+                        "name": "jadwal-operasi-pasien",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.GetAntrianRequest"
+                            "$ref": "#/definitions/dto.JadwalOperasiPasienRequest"
                         }
                     }
                 ],
@@ -293,7 +341,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.InsertPasienDTO"
+                            "$ref": "#/definitions/helper.Response"
                         }
                     },
                     "201": {
@@ -363,7 +411,7 @@ const docTemplate = `{
                         "BasicAuth": []
                     }
                 ],
-                "description": "Get Status Antrean Pasien",
+                "description": "Get Sisa Antrean",
                 "consumes": [
                     "application/json"
                 ],
@@ -373,7 +421,7 @@ const docTemplate = `{
                 "tags": [
                     "Antrean"
                 ],
-                "summary": "Status Antrean",
+                "summary": "Sisa Antrean",
                 "parameters": [
                     {
                         "description": "Get Status Antrean",
@@ -866,10 +914,10 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://rsvitainsani.vincentcore.co.id:28444",
-	BasePath:         "/api/v1",
+	Host:             "https://rsharapan.vincentcore.co.id:28444",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Rumah Sakit Vita Insani Pematangsiantar API",
+	Title:            "Rumah Sakit Harapan Pematangsiantar API",
 	Description:      "Documentasi API yang dapat diakses dari luar, untuk terhubung ke Aplikasi System Informasi Manajemen Rumah Sakit Vita Insani",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

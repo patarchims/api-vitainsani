@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /
 definitions:
   dto.AmbilAntreanFarmasiResponse:
     properties:
@@ -208,21 +208,51 @@ definitions:
         $ref: '#/definitions/helper.Meta'
       response: {}
     type: object
-host: https://rsvitainsani.vincentcore.co.id:28444
+host: https://rsharapan.vincentcore.co.id:28444
 info:
   contact:
     email: vincentpmk@gmail.com
     name: Vincentcore IT Consultant
-    url: https://www.vincentcore.co.id
+    url: https://www.vincentcore.co.id/
   description: Documentasi API yang dapat diakses dari luar, untuk terhubung ke Aplikasi
     System Informasi Manajemen Rumah Sakit Vita Insani
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Rumah Sakit Vita Insani Pematangsiantar API
+  title: Rumah Sakit Harapan Pematangsiantar API
   version: "1.0"
 paths:
+  /ambil-antrean:
+    post:
+      consumes:
+      - application/json
+      description: Ambil Antrean Pasien
+      parameters:
+      - description: Get Antrean Pasien Request
+        in: body
+        name: antrian-pasien
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetAntrianRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.InsertPasienDTO'
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/helper.FailureResponse'
+            type: array
+      security:
+      - BasicAuth: []
+      summary: Ambil Antrean Pasien
+      tags:
+      - Antrean
   /ambil-antrean-farmasi:
     post:
       consumes:
@@ -375,21 +405,21 @@ paths:
     post:
       consumes:
       - application/json
-      description: Get Antrean Pasien
+      description: Get List Jadwal Operasi Pasien Pasien
       parameters:
-      - description: Get Antrean Pasien Request
+      - description: Get Booking Operasi
         in: body
-        name: antrian-pasien
+        name: jadwal-operasi-pasien
         required: true
         schema:
-          $ref: '#/definitions/dto.GetAntrianRequest'
+          $ref: '#/definitions/dto.JadwalOperasiPasienRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.InsertPasienDTO'
+            $ref: '#/definitions/helper.Response'
         "201":
           description: Created
           schema:
@@ -398,7 +428,7 @@ paths:
             type: array
       security:
       - BasicAuth: []
-      summary: Get Antrean Pasien
+      summary: Get List Jadwal Operasi Pasien Pasien
       tags:
       - Antrean
   /pasien-baru:
@@ -435,7 +465,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Get Status Antrean Pasien
+      description: Get Sisa Antrean
       parameters:
       - description: Get Status Antrean
         in: body
@@ -458,7 +488,7 @@ paths:
             type: array
       security:
       - BasicAuth: []
-      summary: Status Antrean
+      summary: Sisa Antrean
       tags:
       - Antrean
   /status-antrean:
