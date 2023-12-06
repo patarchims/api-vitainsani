@@ -79,6 +79,7 @@ func RunApplication() {
 		FarmasiHandler:      &farmasiHandler,
 		MutiaraHandler:      &mutiaraHandler,
 		FileTransferHandler: &fileTransferHandler,
+		Logging:             logging,
 	}
 
 	// ROUTING APP
