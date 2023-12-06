@@ -83,5 +83,5 @@ func RunApplication() {
 	}
 
 	// ROUTING APP
-	service.RoutingFiberAndListen(logging)
+	service.RoutingAndListen()
 }
