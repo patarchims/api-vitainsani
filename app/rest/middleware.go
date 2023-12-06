@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"time"
@@ -10,17 +11,15 @@ import (
 	"vincentcoreapi/modules/user"
 	"vincentcoreapi/modules/user/dto"
 
-	"github.com/goccy/go-json"
-	"github.com/sirupsen/logrus"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/sirupsen/logrus"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "https://rsvitainsani.vincentcore.co.id:28444")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "https://rsmethodist.vincentcore.co.id:28444")
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "*")
@@ -67,7 +66,14 @@ func GenerateTokenPair(users user.ApiUser) (map[string]string, error) {
 
 	return map[string]string{
 		"token": t,
+		//"refresh_token": rt,
 	}, nil
+}
+
+func JwtVerifyFiber(c *fiber.Ctx) error {
+	// func(ctx *fiber.Ctx)
+
+	return c.JSON(helper.APIResponseFailure("Token invalid", http.StatusCreated))
 }
 
 func JwtVerify() gin.HandlerFunc {
@@ -85,9 +91,8 @@ func JwtVerify() gin.HandlerFunc {
 		_, err := jwt.Parse(r.Token, func(token *jwt.Token) (interface{}, error) {
 			return []byte(SecretKey), nil
 		})
-
 		if err != nil {
-			er := errors.New("token expired")
+			er := errors.New("Token expired")
 			response := helper.APIResponseFailure(er.Error(), http.StatusCreated)
 			c.AbortWithStatusJSON(http.StatusCreated, response)
 			telegram.RunFailureMessage("Verify Token", response, c, data)
