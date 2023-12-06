@@ -65,4 +65,5 @@ func (uh *UserHandler) Login(c *gin.Context) {
 	response := helper.APIResponse("Ok", http.StatusOK, m)
 	c.JSON(http.StatusOK, response)
 	telegram.RunSuccessMessage("GET TOKEN", response, c, data)
+
 }

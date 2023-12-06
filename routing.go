@@ -1,12 +1,12 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"vincentcoreapi/app/rest"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-contrib/gzip"
 	swaggerfiles "github.com/swaggo/files"
@@ -16,9 +16,8 @@ import (
 )
 
 // ROUTING APPLICATION
-func (s *Service) RoutingAndListen() {
+func (s *Service) RoutingAndListen(Logging *logrus.Logger) {
 
-	gin.DefaultWriter = ioutil.Discard
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
