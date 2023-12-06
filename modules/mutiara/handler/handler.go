@@ -7,11 +7,13 @@ import (
 	"vincentcoreapi/modules/mutiara/entity"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type MutiaraHandler struct {
 	MutiaraUseCase    entity.MutiaraUseCase
 	MutiaraRepository entity.MutiaraRepository
+	Logging           *logrus.Logger
 }
 
 func (ah *MutiaraHandler) GetDataGaji(c *gin.Context) {

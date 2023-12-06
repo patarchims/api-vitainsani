@@ -112,22 +112,65 @@ func (au *antrianUseCase) CheckedInUsecase(req dto.CheckInRequest) (isSuccess bo
 	}
 	return true, nil
 }
-
 func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRequest) (res dto.ResPasienBaru, err error) {
 
 	exists := au.antrianRepository.CheckPasienDuplikatRepository(req.Nomorkartu)
+
 	if exists {
-		return res, errors.New("Data peserta sudah pernah dientrikan")
+		message := "Data peserta sudah pernah dientrikan"
+		return res, errors.New(message)
 	}
 
-	mapperPayload := au.IAntrianMapper.ToAntrianOlModelMapper(req)
+	// GET ID BARU
+	noRm, errs := au.antrianRepository.GetNormPasienRepository()
 
-	isSuccess, norm := au.antrianRepository.InsertPasienBaruRepository(mapperPayload)
-	if !isSuccess {
-		return res, errors.New("Gagal insert")
+	if errs != nil {
+		message := "Gagal mendapatkan nomor rekam medis"
+		return res, errors.New(message)
 	}
 
-	res.Norm = norm
+	var jenisKelamin = ""
+
+	switch req.Jeniskelamin {
+	case "L":
+		jenisKelamin = "Laki-Laki"
+	case "P":
+		jenisKelamin = "Perempuan"
+	default:
+		jenisKelamin = ""
+	}
+
+	tgl, _ := time.Parse("2006-01-02", (req.Tanggallahir))
+	birthDate := time.Date(tgl.Year(), tgl.Month(), tgl.Day(), 0, 0, 0, 0, time.UTC)
+	currentDate := time.Now()
+	ageDuration := currentDate.Sub(birthDate)
+	ageInYears := ageDuration.Hours() / 24 / 365
+
+	var pasien = antrian.Dprofilpasien{
+		Id:           noRm.Norm,
+		Nik:          req.Nik,
+		Nokapst:      req.Nomorkartu,
+		Firstname:    req.Nama,
+		Jeniskelamin: jenisKelamin,
+		Alamat:       req.Alamat,
+		Tgllahir:     req.Tanggallahir,
+		Rtrw:         req.Rt + "/" + req.Rw,
+		Kelurahan:    req.Namakel,
+		Kecamatan:    req.Namakec,
+		Propinsi:     req.Namaprop,
+		Kabupaten:    req.Namadati2,
+		Umurth:       int(ageInYears),
+		Negara:       "Indonesia",
+		Hp:           req.Nohp,
+	}
+
+	newPasien, err2 := au.antrianRepository.InsertPasienBaruDprofilePasien(pasien)
+
+	if err2 != nil {
+		return res, errors.New("Data Gagal disimpan")
+	}
+
+	res.Norm = newPasien.Id
 
 	return res, nil
 }

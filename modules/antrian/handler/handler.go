@@ -11,6 +11,7 @@ import (
 	"vincentcoreapi/modules/telegram"
 
 	"github.com/goccy/go-json"
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,7 @@ type AntrianHandler struct {
 	AntrianUseCase    entity.AntrianUseCase
 	AntrianRepository entity.AntrianRepository
 	IAntrianMapper    mapper.IAntrianMapper
+	Logging           *logrus.Logger
 }
 
 // SERVICES POST STATUS ANTREAN
@@ -251,6 +253,7 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 
 	// REGISTRASI PASIEN BARU
 	result, err := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
+
 	if err != nil || result.Norm == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)

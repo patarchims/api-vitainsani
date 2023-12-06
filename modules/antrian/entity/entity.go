@@ -53,4 +53,7 @@ type AntrianRepository interface {
 	JmlAntreanRepositoryV2(payload *dto.StatusAntrianRequestV2, kodeDokter string) (res int, err error)
 	LastCalledRepositoryV2(payload *dto.StatusAntrianRequestV2) (res antrian.LastCalled, err error)
 	ListAntrianTodayRepository() (res []antrian.AntrianOl, err error)
+
+	GetNormPasienRepository() (res antrian.IDPasien, err error)
+	InsertPasienBaruDprofilePasien(pasienBaru antrian.Dprofilpasien) (res antrian.Dprofilpasien, err error)
 }

@@ -9,6 +9,7 @@ import (
 	"vincentcoreapi/modules/telegram"
 
 	"github.com/goccy/go-json"
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +18,7 @@ type FarmasiHandler struct {
 	FarmasiUseCase    entity.FarmasiUseCase
 	FarmasiRepository entity.FarmasiRepository
 	IFarmasiMapper    mapper.IFarmasiMapper
+	Logging           *logrus.Logger
 }
 
 // SERVICES POST STATUS ANTREAN
@@ -40,7 +42,7 @@ func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 	if err != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		telegram.RunFailureMessage("AMBIL ANTREAN FARMASI", response, c, data)
+		// telegram.RunFailureMessage("AMBIL ANTREAN FARMASI", response, c, data)
 		return
 	}
 
@@ -49,7 +51,7 @@ func (ah *FarmasiHandler) AmbilAntreanFarmasi(c *gin.Context) {
 	if err != nil || farmasi.JenisResep == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		telegram.RunFailureMessage("AMBIL ANTREAN FARMASI", response, c, data)
+		// telegram.RunFailureMessage("AMBIL ANTREAN FARMASI", response, c, data)
 		return
 	}
 

@@ -27,6 +27,7 @@ import (
 	handlerFileTransfer "vincentcoreapi/modules/transfer/handler"
 
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
 type Service struct {
@@ -35,6 +36,7 @@ type Service struct {
 	FarmasiHandler      *handlerFarmasi.FarmasiHandler
 	MutiaraHandler      *handlerMutiara.MutiaraHandler
 	FileTransferHandler *handlerFileTransfer.TranferHandler
+	Logging             *logrus.Logger
 }
 
 func RunApplication() {
@@ -66,8 +68,8 @@ func RunApplication() {
 
 	// HANDLER
 	userHandler := handlerUser.UserHandler{UserUseCase: uu, UserRepository: repoUser}
-	farmasiHandler := handlerFarmasi.FarmasiHandler{FarmasiUseCase: fu, FarmasiRepository: repoFarmasi, IFarmasiMapper: mapperFarmasi}
-	antrianHandler := handlerAntrian.AntrianHandler{AntrianUseCase: au, AntrianRepository: repoAntrian, IAntrianMapper: mapperAntrian}
+	farmasiHandler := handlerFarmasi.FarmasiHandler{FarmasiUseCase: fu, FarmasiRepository: repoFarmasi, IFarmasiMapper: mapperFarmasi, Logging: logging}
+	antrianHandler := handlerAntrian.AntrianHandler{AntrianUseCase: au, AntrianRepository: repoAntrian, IAntrianMapper: mapperAntrian, Logging: logging}
 	mutiaraHandler := handlerMutiara.MutiaraHandler{MutiaraUseCase: mu}
 	fileTransferHandler := handlerFileTransfer.TranferHandler{}
 
@@ -81,5 +83,4 @@ func RunApplication() {
 
 	// ROUTING APP
 	service.RoutingFiberAndListen(logging)
-	// service.RoutingAndListen()
 }

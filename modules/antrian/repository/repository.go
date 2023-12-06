@@ -650,3 +650,28 @@ func (ar *antrianRepository) CariPoliRepository(kdPoli string) (res antrian.Kpol
 	}
 	return res, err
 }
+
+func (ar *antrianRepository) GetNormPasienRepository() (res antrian.IDPasien, err error) {
+
+	query := `SELECT COALESCE(LPAD(CONVERT(@last_id :=MAX(id),SIGNED INTEGER)+1,6,0),'000001') AS norm FROM his.dprofilpasien WHERE length(id)=6;`
+
+	result := ar.DB.Raw(query).Scan(&res)
+
+	if result.Error != nil {
+		message := fmt.Sprintf("Error %s, Data tidak dapat dieksekusi", result.Error.Error())
+		return res, errors.New(message)
+	}
+
+	return res, nil
+}
+
+// ============================== PENAMBAHAN FITUR
+// ======================== INSERT PASIEN BARU, KE DPROFILPASIEN
+func (ar *antrianRepository) InsertPasienBaruDprofilePasien(pasienBaru antrian.Dprofilpasien) (res antrian.Dprofilpasien, err error) {
+	result := ar.DB.Create(&pasienBaru).Scan(&res)
+	if result.Error != nil || result.RowsAffected == 0 {
+		return res, result.Error
+	}
+
+	return res, nil
+}

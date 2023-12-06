@@ -2,8 +2,6 @@ package antrian
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type (
@@ -195,12 +193,32 @@ type (
 	}
 
 	Dprofilpasien struct {
-		gorm.Model
-		Id           string `json:"id"`
-		Firstname    string `json:"firstname"`
+		Id  string `json:"id"`
+		Nik string
+		// === NOMOR BPJS
+		Nokapst   string
+		Gelar     string
+		Firstname string `json:"firstname"`
+		Lastname  string
+		Agama     string
+		// =============== ISIAN  : Perempuan |Laki-Laki
 		Jeniskelamin string `json:"jeniskelamin"`
+		Tempatlahir  string
 		Tgllahir     string `json:"tgllahir"`
+		Umurth       int
+		Umurbln      int
 		Alamat       string `json:"alamat"`
+		Alamat2      string
+		Rtrw         string
+		Kelurahan    string
+		Kecamatan    string
+		Kotamadya    string
+		Kabupaten    string
+		Propinsi     string
+		Negara       string
+		Kodepos      string
+		Telp         string
+		Hp           string
 	}
 
 	Kpoli struct {
@@ -213,6 +231,10 @@ type (
 		Hargapoli         float64 `json:"hargapoli"`
 		Antrian           string  `json:"antrian"`
 		Hargaadministrasi string  `json:"hargaadministrasi"`
+	}
+
+	IDPasien struct {
+		Norm string
 	}
 )
 
