@@ -70,7 +70,7 @@ func RunApplication() {
 	userHandler := handlerUser.UserHandler{UserUseCase: uu, UserRepository: repoUser}
 	farmasiHandler := handlerFarmasi.FarmasiHandler{FarmasiUseCase: fu, FarmasiRepository: repoFarmasi, IFarmasiMapper: mapperFarmasi, Logging: logging}
 	antrianHandler := handlerAntrian.AntrianHandler{AntrianUseCase: au, AntrianRepository: repoAntrian, IAntrianMapper: mapperAntrian, Logging: logging}
-	mutiaraHandler := handlerMutiara.MutiaraHandler{MutiaraUseCase: mu}
+	mutiaraHandler := handlerMutiara.MutiaraHandler{MutiaraUseCase: mu, MutiaraRepository: repoMutiara, Logging: logging}
 	fileTransferHandler := handlerFileTransfer.TranferHandler{}
 
 	service := &Service{
