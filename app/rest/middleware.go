@@ -9,7 +9,6 @@ import (
 	"vincentcoreapi/helper"
 	"vincentcoreapi/modules/telegram"
 	"vincentcoreapi/modules/user"
-	"vincentcoreapi/modules/user/dto"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gofiber/fiber/v2"
@@ -66,7 +65,6 @@ func GenerateTokenPair(users user.ApiUser) (map[string]string, error) {
 
 	return map[string]string{
 		"token": t,
-		//"refresh_token": rt,
 	}, nil
 }
 
@@ -118,16 +116,16 @@ func JWTVeifyHandler(Logging *logrus.Logger) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
 		var token = c.Get("x-token")
-		var userName = c.Get("x-username")
+		// var userName = c.Get("x-username")
 
-		var datas = dto.RequestToken{Username: userName, Token: token}
+		// var datas = dto.RequestToken{Username: userName, Token: token}
 
-		data2, _ := json.Marshal(datas)
+		// data2, _ := json.Marshal(datas)
 
 		if token == "" {
 			Logging.Error("Token Expired")
 			response := helper.APIResponseFailure("Token harus diisi", http.StatusCreated)
-			telegram.RunFailureMessageFiber("Verify Token", response, c, data2)
+			// telegram.RunFailureMessageFiber("Verify Token", response, c, data2)
 			return c.Status(fiber.StatusCreated).JSON(response)
 		}
 
@@ -138,7 +136,7 @@ func JWTVeifyHandler(Logging *logrus.Logger) fiber.Handler {
 		if err != nil {
 			Logging.Error("Token Expired")
 			response := helper.APIResponseFailure("Token Expired", http.StatusCreated)
-			telegram.RunFailureMessageFiber("Verify Token", response, c, data2)
+			// telegram.RunFailureMessageFiber("Verify Token", response, c, data2)
 			return c.Status(fiber.StatusCreated).JSON(response)
 		}
 

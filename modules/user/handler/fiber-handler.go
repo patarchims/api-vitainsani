@@ -18,7 +18,6 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	// data, _ := json.Marshal(datas)
 
 	if username == "" {
-		uh.Logging.Info("Username kosong")
 		response := helper.APIResponseFailure("Username kosong", http.StatusCreated)
 		// telegram.RunFailureMessageFiber("GET TOKEN", response, c, data)
 		uh.Logging.Info(response)
@@ -26,7 +25,6 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	}
 
 	if password == "" {
-		uh.Logging.Info("Password kosong")
 		response := helper.APIResponseFailure("Password kosong", http.StatusCreated)
 		// telegram.RunFailureMessageFiber("GET TOKEN", response, c, data)
 		uh.Logging.Info(response)
@@ -38,7 +36,6 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	user, exist := uh.UserRepository.GetByUserRepository(username)
 
 	if !exist {
-		uh.Logging.Info("Username atau Password Tidak Sesuai")
 		response := helper.APIResponseFailure("Username atau Password Tidak Sesuai", http.StatusCreated)
 		// telegram.RunFailureMessageFiber("GET TOKEN", response, c, data)
 		uh.Logging.Info(response)
@@ -46,9 +43,7 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	}
 
 	if user.Password != password {
-		uh.Logging.Info("Username atau Password Tidak Sesuai")
 		response := helper.APIResponseFailure("Username atau Password Tidak Sesuai", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("GET TOKEN", response, c, data)
 		uh.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -56,6 +51,5 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	m, _ := rest.GenerateTokenPair(user)
 	response := helper.APIResponse("Ok", http.StatusOK, m)
 	uh.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("GET TOKEN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
