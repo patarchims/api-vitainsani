@@ -401,15 +401,20 @@ func (ar *antrianRepository) CheckKuotaRepository(tglPeriksa string, idDokter st
 	var jmlhDaftar int64
 	var antrianOl antrian.AntrianOl
 
-	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ?", idDokter, tglPeriksa).Find(&antrianOl).Count(&jmlhDaftar)
+	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ? AND kode_debitur = ?", idDokter, tglPeriksa, "BPJS").Find(&antrianOl).Count(&jmlhDaftar)
 
 	if resJmlhDaftar.Error != nil {
 		return false
 	}
 
+	fmt.Println("JUMLAH DAFTAR")
+	fmt.Println(jmlhDaftar)
+
 	// kuota pasien
 	var ktaripdokter antrian.KtaripDokter
+
 	resKuota := ar.DB.Where("iddokter = ?", idDokter).Find(&ktaripdokter)
+
 	if resKuota.Error != nil {
 		return false
 	}
@@ -508,7 +513,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepository(req dto.GetAntrianReque
 
 	// Jumlah Antrian
 	antrians := []antrian.AntrianOl{}
-	if err = ar.DB.Where("status = ? AND tgl_periksa = ? AND kd_dokter = ?", "tunggu", req.Tanggalperiksa, detailKTaripDokter.Iddokter).Find(&antrians).Error; err != nil {
+	if err = ar.DB.Where("status = ? AND tgl_periksa = ? AND kd_dokter = ? AND kode_debitur=? ", "tunggu", req.Tanggalperiksa, detailKTaripDokter.Iddokter, "BPJS").Find(&antrians).Error; err != nil {
 		return response, err
 	}
 	fmt.Println("Jumlah Antrean")
@@ -520,7 +525,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepository(req dto.GetAntrianReque
 
 	data2 := antrian.AntrianOl{
 		// SIMPAN DARI DPROFILE PASIEN
-		Dob:                detaiProfilPasien.Tgllahir,
+		Dob:                detaiProfilPasien.Tgllahir[0:10],
 		Nama:               detaiProfilPasien.Firstname,
 		Alamat:             detaiProfilPasien.Alamat,
 		Id:                 detaiProfilPasien.Id,

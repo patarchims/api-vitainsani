@@ -123,7 +123,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 
 	// Jumlah Antrian
 	antrians := []antrian.AntrianOl{}
-	if err = ar.DB.Where("status = ? AND tgl_periksa = ? AND kd_dokter = ?", "tunggu", req.Tanggalperiksa, detailKTaripDokter.Iddokter).Find(&antrians).Error; err != nil {
+	if err = ar.DB.Where("status = ? AND tgl_periksa = ? AND kd_dokter = ? AND kode_debitur=? ", "tunggu", req.Tanggalperiksa, detailKTaripDokter.Iddokter, "BPJS").Find(&antrians).Error; err != nil {
 		return response, err
 	}
 	fmt.Println("Jumlah Antrean")

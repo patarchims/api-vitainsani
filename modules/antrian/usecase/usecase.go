@@ -206,11 +206,15 @@ func (au *antrianUseCase) AmbilAntreanUsecase(req dto.GetAntrianRequest, detailP
 
 	// DETAIL KTARIPDOKTER
 	detailKTaripDokter, err := au.antrianRepository.DetailTaripDokterByMapingAntrolRepository(req.Kodedokter)
+
 	if err != nil || detailKTaripDokter.Iddokter == "" {
 		str := strconv.Itoa(req.Kodedokter)
 		message := fmt.Sprintf("Kode dokter %s tidak ditemukan", str)
 		return response, errors.New(message)
 	}
+
+	fmt.Println("DETAIL DOKTER")
+	fmt.Println(detailKTaripDokter)
 
 	var jumlahJadwal = detailKTaripDokter.Mon + detailKTaripDokter.Tue + detailKTaripDokter.Wed + detailKTaripDokter.Thu + detailKTaripDokter.Fri + detailKTaripDokter.Sat
 

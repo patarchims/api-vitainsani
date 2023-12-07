@@ -149,6 +149,7 @@ type (
 		CatatanLibur string    `json:"catatan_libur"`
 	}
 
+	// ================ INI BPJS
 	KtaripDokter struct {
 		Namadokter        string `json:"namadokter"`
 		Alamat            string `json:"alamat"`

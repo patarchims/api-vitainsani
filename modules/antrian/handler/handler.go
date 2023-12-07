@@ -392,6 +392,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 	}
 
 	detaiProfilPasien, err := ah.AntrianRepository.CheckMedrekRepository(payload.Nik)
+
 	if err != nil || detaiProfilPasien.Id == "" {
 		message := fmt.Sprintf("%s belum terdaftar rekam medis, silahkan daftar terlebih dahulu", payload.Nomorkartu)
 		response := helper.APIResponseFailure(message, http.StatusAccepted)
@@ -401,6 +402,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 	}
 
 	detailPoli, err := ah.AntrianRepository.CariPoliRepository(payload.Kodepoli)
+
 	if err != nil || detailPoli.Kodepoli == "" {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
@@ -410,6 +412,7 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 	}
 
 	result, err := ah.AntrianUseCase.AmbilAntreanUsecase(*payload, detailPoli, detaiProfilPasien)
+
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
