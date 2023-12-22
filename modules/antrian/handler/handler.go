@@ -130,6 +130,7 @@ func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 		return
 	}
 
+	// CHEK APAKAH ANTRIAN TERSEBUT SUDAH BATAL ATAU TIDAK
 	datas, errs := ah.AntrianRepository.GetSisaAntreanRepository(*payload)
 
 	if errs != nil || datas.Nomorantrean == "" {

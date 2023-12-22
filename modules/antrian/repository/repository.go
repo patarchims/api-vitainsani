@@ -201,8 +201,12 @@ func (ar *antrianRepository) GetSisaAntreanRepository(req dto.GetSisaAntrianRequ
 	result := ar.DB.Raw(query, req.Kodebooking).Scan(&kodeBook)
 
 	if result.Error != nil || kodeBook.NoAntrian == "" {
-		log.Println("[Error Query]", err)
 		return res, errors.New("antrean dengan kode booking tersebut tidak ditemukan")
+	}
+
+	// PENAMBAHAN STATUS BATAL
+	if kodeBook.Status == "batal" {
+		return res, errors.New("antrean dengan kode booking tersebut sudah dibatalkan")
 	}
 
 	type SisaAntrean struct {
@@ -215,8 +219,7 @@ func (ar *antrianRepository) GetSisaAntreanRepository(req dto.GetSisaAntrianRequ
 
 	quers := `
 	SELECT COUNT(*) AS sisaantrean ,(COUNT(*)*? )*60 AS waktutunggu,no_antrian AS antrianpanggil FROM rekam.antrian_ol
-	WHERE kd_dokter=SUBSTRING_INDEX((SUBSTRING_INDEX(?,'-',2) ),'-',-1) AND CAST(no_antrian AS SIGNED INTEGER)<CAST(RIGHT(?,3) AS SIGNED INTEGER) AND STATUS='tunggu'
-	AND tgl_periksa=CONCAT(SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,1,4),'-',SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,5,2),'-', SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,7,2))
+	WHERE kd_dokter=SUBSTRING_INDEX((SUBSTRING_INDEX(?,'-',2) ),'-',-1) AND CAST(no_antrian AS SIGNED INTEGER)<CAST(RIGHT(?,3) AS SIGNED INTEGER) AND STATUS='tunggu' AND tgl_periksa=CONCAT(SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,1,4),'-',SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,5,2),'-', SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,7,2))
 	`
 	value := ar.DB.Raw(quers, kodeBook.EstimasiPerPasien, req.Kodebooking, req.Kodebooking, req.Kodebooking, req.Kodebooking, req.Kodebooking).Scan(&sisa)
 
