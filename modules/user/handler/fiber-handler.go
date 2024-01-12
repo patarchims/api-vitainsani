@@ -13,9 +13,6 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	var username = c.Get("x-username")
 	var password = c.Get("x-password")
 
-	uh.Logging.Info(username)
-	uh.Logging.Info(password)
-
 	if username == "" {
 		response := helper.APIResponseFailure("Username kosong", http.StatusCreated)
 		uh.Logging.Info(response)
@@ -37,6 +34,7 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	}
 
 	if user.Password != password {
+		uh.Logging.Info("Username atau Password Tidak Sesuai")
 		response := helper.APIResponseFailure("Username atau Password Tidak Sesuai", http.StatusCreated)
 		uh.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)

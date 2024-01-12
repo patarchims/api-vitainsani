@@ -9,7 +9,6 @@ import (
 
 func NewFiberConfig() fiber.Config {
 	return fiber.Config{
-
 		JSONEncoder:   json.Marshal,
 		JSONDecoder:   json.Unmarshal,
 		ErrorHandler:  exception.ErrorHandler,
@@ -17,6 +16,6 @@ func NewFiberConfig() fiber.Config {
 		CaseSensitive: true,
 		StrictRouting: true,
 		ServerHeader:  "Fiber",
-		AppName:       "Aplikasi Mobile API v1.0.1",
+		AppName:       "Aplikasi Mobile Vita Insani API v1.0.1",
 	}
 }

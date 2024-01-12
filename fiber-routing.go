@@ -32,6 +32,7 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	api := app.Group("/")
 
 	api.Get("gettoken", s.UserHandler.LoginFiberHandler)
+
 	api.Post("status-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetStatusAntrianFiberHandler)
 	api.Post("sisa-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetSisaAntrianFiberHandler)
 	api.Post("batal-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.BatalAntreanFiberHandler)
