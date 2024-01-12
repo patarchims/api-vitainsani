@@ -9,8 +9,6 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/gin-contrib/gzip"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 
 	_ "vincentcoreapi/docs"
 )
@@ -58,11 +56,6 @@ func (s *Service) RoutingAndListen(Logging *logrus.Logger) {
 	// FILETRANFER
 	apiProtected.POST("/upload-file", s.FileTransferHandler.UploadFile)
 	apiPublic.GET("/file-directories", s.FileTransferHandler.UploadFile)
-	api.GET("api/prod/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
-	ginSwagger.WrapHandler(swaggerfiles.Handler,
-		ginSwagger.URL("http://localhost:6060/swagger/doc.json"),
-		ginSwagger.DefaultModelsExpandDepth(-1))
 
 	// RUN SERVER
 	router.Run(os.Getenv("DEPLOY_PORT"))

@@ -74,6 +74,7 @@ func (ah *AntrianHandler) GetStatusAntrian(c *gin.Context) {
 	}
 
 	m, err := ah.AntrianUseCase.GetStatusAntreanUsecase(payload, detailPoli)
+
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
@@ -117,13 +118,11 @@ func (ah *AntrianHandler) ListAntrianToday(c *gin.Context) {
 // @Router			/sisa-antrean 	[post]
 func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 	payload := new(dto.GetSisaAntrianRequest)
-	// data, _ := json.Marshal(payload)
 
 	err := c.ShouldBindJSON(&payload)
 	if err != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST SISA ANTREAN", response, c, data)
 		return
 	}
 
@@ -133,13 +132,11 @@ func (ah *AntrianHandler) GetSisaAntrian(c *gin.Context) {
 	if errs != nil || datas.Nomorantrean == "" {
 		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST SISA ANTREAN", response, c, data)
 		return
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, datas)
 	c.JSON(http.StatusOK, response)
-	// telegram.RunSuccessMessage("POST SISA ANTREAN", response, c, data)
 
 }
 
@@ -236,7 +233,6 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 	if err != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST PASIEN BARU", response, c, data)
 		return
 	}
 
@@ -245,7 +241,6 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST PASIEN BARU", response, c, data)
 		return
 	}
 
@@ -255,13 +250,11 @@ func (ah *AntrianHandler) RegisterPasienBaru(c *gin.Context) {
 	if err != nil || result.Norm == "" {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST PASIEN BARU", response, c, data)
 		return
 	}
 
 	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, result)
 	c.JSON(http.StatusOK, response)
-	// telegram.RunSuccessMessage("POST PASIEN BARU", response, c, data)
 }
 
 // GetJadwalOperasi
@@ -405,7 +398,6 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST AMBIL ANTREAN", response, c, data)
 		return
 	}
 
@@ -414,11 +406,10 @@ func (ah *AntrianHandler) AmbilAntrean(c *gin.Context) {
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		c.JSON(http.StatusCreated, response)
-		// telegram.RunFailureMessage("POST AMBIL ANTREAN", response, c, data)
 		return
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, result)
 	c.JSON(http.StatusOK, response)
-	// telegram.RunSuccessMessage("POST AMBIL ANTREAN", response, c, data)
+
 }

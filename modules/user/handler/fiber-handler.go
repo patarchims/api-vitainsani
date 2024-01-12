@@ -13,16 +13,11 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 	var username = c.Get("x-username")
 	var password = c.Get("x-password")
 
-	// var datas = dto.RequestHeader{Username: username, Password: password}
-
-	// data, _ := json.Marshal(datas)
-
 	uh.Logging.Info(username)
 	uh.Logging.Info(password)
 
 	if username == "" {
 		response := helper.APIResponseFailure("Username kosong", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("GET TOKEN", response, c, data)
 		uh.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -32,8 +27,6 @@ func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 		uh.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
-
-	// => Be Produktif <= //
 
 	user, exist := uh.UserRepository.GetByUserRepository(username)
 

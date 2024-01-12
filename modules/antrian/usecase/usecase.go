@@ -29,6 +29,7 @@ func NewAntrianUseCase(ar entity.AntrianRepository, IAntrianMapper mapper.IAntri
 func (au *antrianUseCase) GetStatusAntreanUsecase(payload *dto.StatusAntrianRequest, detailPoli antrian.Kpoli) (res dto.StatusAntreanDTO, err error) {
 
 	detailKTaripDokter, err := au.antrianRepository.DetailTaripDokterByMapingAntrolRepository(payload.KodeDokter)
+
 	if err != nil || detailKTaripDokter.Iddokter == "" {
 		return res, errors.New("Dokter tidak ditemukan")
 	}
@@ -98,7 +99,7 @@ func (au *antrianUseCase) BatalAntreanUsecase(req dto.BatalAntreanRequest) (isSu
 
 	isSuccess := au.antrianRepository.BatalAntreanRepository(antrean.NoBook, req.Keterangan)
 	if !isSuccess {
-		return false, errors.New("Data gagal diupdate")
+		return false, errors.New("data gagal diupdate")
 	}
 
 	return true, nil
@@ -108,7 +109,7 @@ func (au *antrianUseCase) CheckedInUsecase(req dto.CheckInRequest) (isSuccess bo
 
 	isSuccess = au.antrianRepository.CheckInRepository(req.Kodebooking, req.Waktu)
 	if !isSuccess {
-		return false, errors.New("Gagal update")
+		return false, errors.New("gagal update")
 	}
 	return true, nil
 }
@@ -117,7 +118,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	exists := au.antrianRepository.CheckPasienDuplikatRepository(req.Nomorkartu)
 
 	if exists {
-		message := "Data peserta sudah pernah dientrikan"
+		message := "data peserta sudah pernah dientrikan"
 		return res, errors.New(message)
 	}
 
@@ -125,7 +126,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	noRm, errs := au.antrianRepository.GetNormPasienRepository()
 
 	if errs != nil {
-		message := "Gagal mendapatkan nomor rekam medis"
+		message := "gagal mendapatkan nomor rekam medis"
 		return res, errors.New(message)
 	}
 
@@ -167,7 +168,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	newPasien, err2 := au.antrianRepository.InsertPasienBaruDprofilePasien(pasien)
 
 	if err2 != nil {
-		return res, errors.New("Data Gagal disimpan")
+		return res, errors.New("data Gagal disimpan")
 	}
 
 	res.Norm = newPasien.Id

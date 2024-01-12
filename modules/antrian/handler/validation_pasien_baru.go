@@ -138,9 +138,6 @@ func compareDate(stringDate string) bool {
 	now := time.Now()
 	t, _ := time.Parse("2006-01-02", stringDate)
 
-	if t.Before(now) {
-		return true
-	}
+	return t.Before(now)
 
-	return false
 }

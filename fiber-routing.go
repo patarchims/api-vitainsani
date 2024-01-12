@@ -10,7 +10,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/sirupsen/logrus"
 )
@@ -45,9 +44,6 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	// NEW FITUR, ANTREAN FARMASI
 	api.Post("ambil-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.AmbilAntreanFarmasiFiberHandler)
 	api.Post("status-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.StatusAntreanFarmasiFiberHandler)
-
-	// MONITORING
-	api.Get("metrics", monitor.New(monitor.Config{Title: "Hostpital Management System"}))
 
 	err := app.Listen(os.Getenv("DEPLOY_PORT"))
 

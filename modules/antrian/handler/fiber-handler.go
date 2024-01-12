@@ -14,11 +14,8 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.StatusAntrianRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("GET STATUS ANTREAN", response, c, data)
 		ah.Logging.Info("Data tidak boleh ada yang null!")
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -27,7 +24,6 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 
 	if !validasi {
 		response := helper.APIResponseFailure("Format Tanggal Tidak Sesuai, format yang benar adalah yyyy-mm-dd", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("GET STATUS ANTREAN", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -40,7 +36,6 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 	if date.Unix() > tglPeriksa.Unix() {
 		response := helper.APIResponseFailure("Tanggal periksa tidak berlaku", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("GET STATUS ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -49,7 +44,6 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 	if err != nil || detailPoli.Kodepoli == "" {
 		response := helper.APIResponseFailure("Poli tidak ditemukan", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("GET STATUS ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -58,13 +52,11 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("GET STATUS ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, m)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("GET STATUS ANTREAN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -77,7 +69,6 @@ func (ah *AntrianHandler) GetSisaAntrianFiberHandler(c *fiber.Ctx) error {
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST SISA ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -86,13 +77,11 @@ func (ah *AntrianHandler) GetSisaAntrianFiberHandler(c *fiber.Ctx) error {
 	if errs != nil || datas.Nomorantrean == "" {
 		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST SISA ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, datas)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("POST SISA ANTREAN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 
 }
@@ -101,12 +90,9 @@ func (ah *AntrianHandler) BatalAntreanFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.BatalAntreanRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST BATAL ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -114,14 +100,12 @@ func (ah *AntrianHandler) BatalAntreanFiberHandler(c *fiber.Ctx) error {
 
 	if err != nil || !isSuccessBatal {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST BATAL ANTREAN", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponseFailure("Ok", http.StatusOK)
 	ah.Logging.Info(response)
-	// telegram.RunFailureMessageFiber("POST BATAL ANTREAN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -129,11 +113,8 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.CheckInRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST CHECK IN", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -142,7 +123,6 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 
 	if !isSuccess {
 		response := helper.APIResponseFailure("Gagal update", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST CHECK IN", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
@@ -151,7 +131,6 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 	// META
 	response := helper.APIResponseFailure("Ok", http.StatusOK)
 	ah.Logging.Info(response)
-	// telegram.RunFailureMessageFiber("POST CHECK IN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -159,37 +138,33 @@ func (ah *AntrianHandler) RegisterPasienBaruFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.RegisterPasienBaruRequest)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST PASIEN BARU", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	// NOTE: VALIDASI PASIEN BARU
 	errs = validationPayloadPasienBaru(*payload)
+	ah.Logging.Info("REQUEST PASIEN BARU")
+	ah.Logging.Info(payload)
 	if errs != nil {
 		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST PASIEN BARU", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	// REGISTRASI PASIEN BARU
-	result, err := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
+	result, errs1 := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
 
-	if err != nil || result.Norm == "" {
-		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
+	if errs1 != nil || result.Norm == "" {
+		response := helper.APIResponseFailure(errs1.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST PASIEN BARU", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, result)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("POST PASIEN BARU", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -197,12 +172,9 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.JadwalOperasiRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada  yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST GET JADWAL OPERASI", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -212,7 +184,6 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 	if !validasi || !validasi1 {
 		response := helper.APIResponseFailure("Format Tanggal (YYYY-MM-DD)", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST GET JADWAL OPERASI", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -224,7 +195,6 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 	if date2.Unix() < date1.Unix() {
 		response := helper.APIResponseFailure("Tangal Akhir Tidak Boleh Lebih Kecil dari Tanggal Awal", http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST GET JADWAL OPERASI", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -234,7 +204,6 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 		message := fmt.Sprintf("Tidak ada jadwal operasi pada tanggal %s sampai %s", payload.Tanggalawal, payload.Tanggalakhir)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST GET JADWAL OPERASI", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -243,7 +212,6 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 
 	response := helper.APIResponse("Ok", http.StatusOK, m)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("POST GET JADWAL OPERASI", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -251,13 +219,10 @@ func (ah *AntrianHandler) GetKodeBookingOperasiFiberHandler(c *fiber.Ctx) error 
 	payload := new(dto.JadwalOperasiPasienRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
-		// telegram.RunFailureMessageFiber("POST JADWAL OPERASI", response, c, data)
 	}
 
 	jadwalOperasi, err := ah.AntrianUseCase.GetKodeBookingOperasiByNoPesertaUsecaseV2(*payload)
@@ -265,13 +230,11 @@ func (ah *AntrianHandler) GetKodeBookingOperasiFiberHandler(c *fiber.Ctx) error 
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
-		// telegram.RunFailureMessageFiber("POST JADWAL OPERASI", response, c, data)
 		return c.Status(fiber.StatusOK).JSON(response)
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, jadwalOperasi)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("POST JADWAL OPERASI", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -279,14 +242,11 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.GetAntrianRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		ah.Logging.Info("Data tidak boleh ada yang null!")
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
-		// telegram.RunFailureMessageFiber("POST JADWAL OPERASI", response, c, data)
 	}
 
 	detaiProfilPasien, err := ah.AntrianRepository.CheckMedrekRepository(payload.Nik)
@@ -295,7 +255,6 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 		message := fmt.Sprintf("%s belum terdaftar rekam medis, silahkan daftar terlebih dahulu", payload.Nomorkartu)
 		response := helper.APIResponseFailure(message, http.StatusAccepted)
 		ah.Logging.Info(message)
-		// telegram.RunFailureMessageFiber("POST AMBIL ANTREAN", response, c, data)
 		return c.Status(fiber.StatusAccepted).JSON(response)
 	}
 
@@ -305,7 +264,6 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
 		ah.Logging.Info(message)
-		// telegram.RunFailureMessageFiber("POST AMBIL ANTREAN", response, c, data)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -313,13 +271,11 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
-		// telegram.RunFailureMessageFiber("POST AMBIL ANTREAN", response, c, data)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, result)
 	ah.Logging.Info(response)
-	// telegram.RunSuccessMessageFiber("POST AMBIL ANTREAN", response, c, data)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
