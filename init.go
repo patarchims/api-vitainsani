@@ -67,7 +67,7 @@ func RunApplication() {
 	mu := mutiaraUseCase.MutiaraUseCase(repoMutiara, mutiaraMapper)
 
 	// HANDLER
-	userHandler := handlerUser.UserHandler{UserUseCase: uu, UserRepository: repoUser}
+	userHandler := handlerUser.UserHandler{UserUseCase: uu, UserRepository: repoUser, Logging: logging}
 	farmasiHandler := handlerFarmasi.FarmasiHandler{FarmasiUseCase: fu, FarmasiRepository: repoFarmasi, IFarmasiMapper: mapperFarmasi, Logging: logging}
 	antrianHandler := handlerAntrian.AntrianHandler{AntrianUseCase: au, AntrianRepository: repoAntrian, IAntrianMapper: mapperAntrian, Logging: logging}
 	mutiaraHandler := handlerMutiara.MutiaraHandler{MutiaraUseCase: mu, MutiaraRepository: repoMutiara, Logging: logging}

@@ -17,6 +17,11 @@ type UserHandler struct {
 	UserUseCase    entity.UserUseCase
 	UserRepository entity.UserRepository
 	Logging        *logrus.Logger
+
+	// AntrianUseCase    entity.AntrianUseCase
+	// AntrianRepository entity.AntrianRepository
+	// IAntrianMapper    mapper.IAntrianMapper
+	// Logging           *logrus.Logger
 }
 
 // @Summary			Get Token
