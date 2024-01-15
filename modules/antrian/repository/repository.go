@@ -341,7 +341,7 @@ func (ar *antrianRepository) CheckAntreanRepository(nomorKartu, tglPeriksa, kode
 	result := ar.DB.Table("antrian_ol a").
 		Select("*").
 		Joins("JOIN his.kpoli b ON b.kodepoli = a.kode_tujuan").
-		Where("noka = ?  AND b.bpjs = ? AND  a.status =? a.reg_type", nomorKartu, kodePoli, "tunggu", "online").
+		Where("noka = ?  AND b.bpjs = ? AND  a.status =? AND a.reg_type", nomorKartu, kodePoli, "tunggu", "online").
 		Count(&jumlah)
 	if result.Error != nil {
 		return jumlah, errors.New("data tidak di temukan")
