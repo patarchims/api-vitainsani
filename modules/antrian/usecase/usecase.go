@@ -118,7 +118,6 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 
 	// exists := au.antrianRepository.CheckPasienDuplikatRepository(req.Nomorkartu)
 	exists := au.antrianRepository.CheckPasienDProfilePasienRepository(req.Nomorkartu)
-	// CheckPasienDProfilePasienRepository(noka string) (isDuplicate bool)
 
 	if exists {
 		message := "data peserta sudah pernah dientrikan"

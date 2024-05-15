@@ -142,6 +142,9 @@ func (ah *AntrianHandler) RegisterPasienBaruFiberHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
+	ah.Logging.Info("REGISTER PASIEN BARU")
+	ah.Logging.Info(payload)
+
 	// REGISTRASI PASIEN BARU
 	result, errs12 := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
 
