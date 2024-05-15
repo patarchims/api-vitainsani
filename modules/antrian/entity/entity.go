@@ -23,6 +23,7 @@ type AntrianUseCase interface {
 
 // AntrianRepository
 type AntrianRepository interface {
+	CheckPasienDProfilePasienRepository(noka string) (isDuplicate bool)
 	CekPoliRepository(value string) (isTrue bool, err error)
 	GetJadwalOperasiRepository(tanggalAwal, tanggalAkhir string) (jadopOls []antrian.JadopOl, err error)
 	DetailPoliRepository(params map[string]interface{}) (res map[string]interface{}, err error)

@@ -281,9 +281,8 @@ func (ar *antrianRepository) CheckInRepository(kodeBooking string, waktu int64) 
 
 	result := ar.DB.Model(antrian.AntrianOl{}).
 		Where("no_book = ? ", kodeBooking).
-		Updates(antrian.AntrianOl{
-			CheckedIn: now,
-		})
+		Updates(antrian.AntrianOl{CheckedIn: now})
+
 	if result.Error != nil || result.RowsAffected == 0 {
 		return false
 	}
@@ -295,6 +294,17 @@ func (ar *antrianRepository) CheckPasienDuplikatRepository(noka string) (isDupli
 
 	antrianOl := antrian.AntrianOl{}
 	if err := ar.DB.Where("noka = ? ", noka).Take(&antrianOl).Error; err != nil {
+		return false
+	}
+
+	return true
+}
+
+// CHECK PASIEN SUDAH ADA ATAU BELUM
+func (ar *antrianRepository) CheckPasienDProfilePasienRepository(noka string) (isDuplicate bool) {
+	// Dprofilpasien
+	pasien := antrian.Dprofilpasien{}
+	if err := ar.DB.Where("nokapst = ? ", noka).Take(&pasien).Error; err != nil {
 		return false
 	}
 

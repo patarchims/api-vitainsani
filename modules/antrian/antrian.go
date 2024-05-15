@@ -10,55 +10,54 @@ type (
 		BookingOnsiteDttm  string `json:"booking_onsite_dttm"`
 		BookingOnsiteUser  string `json:"booking_onsite_user"`
 		JenisAntreanPasien string `json:"jenis_antrean_pasien"`
-		// omitempty -> Bidang harus dihilangkan
-		TimeElapsed     string `json:"time_elapsed,omitempty"`
-		Notif           string `json:"notif"`
-		Batal           string `json:"batal"`
-		RegType         string `json:"reg_type"`
-		KetUpdate       string `json:"ket_update"`
-		Kunci           string `json:"kunci"`
-		Status          string `json:"status"`
-		Keterangan      string `json:"keterangan"`
-		Proses          string `json:"proses"`
-		User            string `json:"user"`
-		TglProses       string `json:"tgl_proses"`
-		Pc              string `json:"pc"`
-		Id              string `json:"id"`
-		Noreg           string `json:"noreg"`
-		Nik             string `json:"nik"`
-		Noka            string `json:"noka"`
-		Jeniskunjungan  string `json:"jeniskunjungan"`
-		NoRujukan       string `json:"no_rujukan"`
-		NoInhealth      string `json:"no_inhealth"`
-		NoHp            string `json:"no_hp"`
-		Nama            string `json:"nama"`
-		Gender          string `json:"gender"`
-		Dob             string `json:"dob,omitempty"`
-		Alamat          string `json:"alamat"`
-		KodeTujuan      string `json:"kode_tujuan"`
-		Tujuan          string `json:"tujuan"`
-		TglPeriksa      string `json:"tgl_periksa"`
-		KdDokter        string `json:"kd_dokter"`
-		Dokter          string `json:"dokter"`
-		UnikId          string `json:"unik_id"`
-		NoAntrian       string `json:"no_antrian"`
-		KodeDebitur     string `json:"kode_debitur"`
-		Debitur         string `json:"debitur"`
-		BookDate        string `json:"book_date"`
-		NoBook          string `json:"no_book"`
-		JknNomorkk      string `json:"jkn_nomorkk"`
-		JknTanggallahir string `json:"jkn_tanggallahir"`
-		JknKodeprop     string `json:"jkn_kodeprop"`
-		JknNamaprop     string `json:"jkn_namaprop"`
-		JknKodedati2    string `json:"jkn_kodedati2"`
-		JknNamadati2    string `json:"jkn_namadati2"`
-		JknKodekec      string `json:"jkn_kodekec"`
-		JknNamakec      string `json:"jkn_namakec"`
-		JknKodekel      string `json:"jkn_kodekel"`
-		JknNamakel      string `json:"jkn_namakel"`
-		JknRw           string `json:"jkn_rw"`
-		JknRt           string `json:"jkn_rt"`
-		CheckedIn       string `json:"checked_in"`
+		TimeElapsed        string `json:"time_elapsed,omitempty"`
+		Notif              string `json:"notif"`
+		Batal              string `json:"batal"`
+		RegType            string `json:"reg_type"`
+		KetUpdate          string `json:"ket_update"`
+		Kunci              string `json:"kunci"`
+		Status             string `json:"status"`
+		Keterangan         string `json:"keterangan"`
+		Proses             string `json:"proses"`
+		User               string `json:"user"`
+		TglProses          string `json:"tgl_proses"`
+		Pc                 string `json:"pc"`
+		Id                 string `json:"id"`
+		Noreg              string `json:"noreg"`
+		Nik                string `json:"nik"`
+		Noka               string `json:"noka"`
+		Jeniskunjungan     string `json:"jeniskunjungan"`
+		NoRujukan          string `json:"no_rujukan"`
+		NoInhealth         string `json:"no_inhealth"`
+		NoHp               string `json:"no_hp"`
+		Nama               string `json:"nama"`
+		Gender             string `json:"gender"`
+		Dob                string `json:"dob,omitempty"`
+		Alamat             string `json:"alamat"`
+		KodeTujuan         string `json:"kode_tujuan"`
+		Tujuan             string `json:"tujuan"`
+		TglPeriksa         string `json:"tgl_periksa"`
+		KdDokter           string `json:"kd_dokter"`
+		Dokter             string `json:"dokter"`
+		UnikId             string `json:"unik_id"`
+		NoAntrian          string `json:"no_antrian"`
+		KodeDebitur        string `json:"kode_debitur"`
+		Debitur            string `json:"debitur"`
+		BookDate           string `json:"book_date"`
+		NoBook             string `json:"no_book"`
+		JknNomorkk         string `json:"jkn_nomorkk"`
+		JknTanggallahir    string `json:"jkn_tanggallahir"`
+		JknKodeprop        string `json:"jkn_kodeprop"`
+		JknNamaprop        string `json:"jkn_namaprop"`
+		JknKodedati2       string `json:"jkn_kodedati2"`
+		JknNamadati2       string `json:"jkn_namadati2"`
+		JknKodekec         string `json:"jkn_kodekec"`
+		JknNamakec         string `json:"jkn_namakec"`
+		JknKodekel         string `json:"jkn_kodekel"`
+		JknNamakel         string `json:"jkn_namakel"`
+		JknRw              string `json:"jkn_rw"`
+		JknRt              string `json:"jkn_rt"`
+		CheckedIn          string `json:"checked_in"`
 	}
 
 	AntrianOl2 struct {
@@ -149,7 +148,6 @@ type (
 		CatatanLibur string    `json:"catatan_libur"`
 	}
 
-	// ================ INI BPJS
 	KtaripDokter struct {
 		Namadokter        string `json:"namadokter"`
 		Alamat            string `json:"alamat"`
@@ -194,15 +192,13 @@ type (
 	}
 
 	Dprofilpasien struct {
-		Id  string `json:"id"`
-		Nik string
-		// === NOMOR BPJS
-		Nokapst   string
-		Gelar     string
-		Firstname string `json:"firstname"`
-		Lastname  string
-		Agama     string
-		// =============== ISIAN  : Perempuan |Laki-Laki
+		Id           string `json:"id"`
+		Nik          string
+		Nokapst      string
+		Gelar        string
+		Firstname    string `json:"firstname"`
+		Lastname     string
+		Agama        string
 		Jeniskelamin string `json:"jeniskelamin"`
 		Tempatlahir  string
 		Tgllahir     string `json:"tgllahir"`

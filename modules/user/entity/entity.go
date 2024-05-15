@@ -14,3 +14,5 @@ type UserRepository interface {
 	GetByIDRepository(userID string) (res user.ApiUser, exist bool)
 	GetByUserRepository(userName string) (res user.ApiUser, exist bool)
 }
+
+type UserMapper interface{}

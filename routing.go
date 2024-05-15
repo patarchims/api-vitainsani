@@ -44,7 +44,6 @@ func (s *Service) RoutingAndListen(Logging *logrus.Logger) {
 	apiProtected.POST("/list-jadwal-operasi", s.AntrianHandler.GetKodeBookingOperasi)
 	apiProtected.POST("/ambil-antrean", s.AntrianHandler.AmbilAntrean)
 
-	// NEW FITUR, ANTREAN FARMASI
 	apiProtected.POST("/ambil-antrean-farmasi", s.FarmasiHandler.AmbilAntreanFarmasi)
 	apiProtected.POST("/status-antrean-farmasi", s.FarmasiHandler.StatusAntreanFarmasi)
 

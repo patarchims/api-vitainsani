@@ -128,7 +128,6 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 	}
 
 	// REPONSE HANYA
-	// META
 	response := helper.APIResponseFailure("Ok", http.StatusOK)
 	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
@@ -136,35 +135,22 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 
 func (ah *AntrianHandler) RegisterPasienBaruFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.RegisterPasienBaruRequest)
-	errs := c.BodyParser(&payload)
+	errs1 := c.BodyParser(&payload)
 
-	if errs != nil {
+	if errs1 != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
-		ah.Logging.Info(response)
-		return c.Status(fiber.StatusCreated).JSON(response)
-	}
-
-	// NOTE: VALIDASI PASIEN BARU
-	errs = validationPayloadPasienBaru(*payload)
-	ah.Logging.Info("REQUEST PASIEN BARU")
-	ah.Logging.Info(payload)
-	if errs != nil {
-		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
-		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	// REGISTRASI PASIEN BARU
-	result, errs1 := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
+	result, errs12 := ah.AntrianUseCase.RegisterPasienBaruUsecase(*payload)
 
-	if errs1 != nil || result.Norm == "" {
-		response := helper.APIResponseFailure(errs1.Error(), http.StatusCreated)
-		ah.Logging.Info(response)
+	if errs12 != nil || result.Norm == "" {
+		response := helper.APIResponseFailure(errs12.Error(), http.StatusCreated)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, result)
-	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 

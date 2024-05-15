@@ -37,6 +37,7 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	api.Post("sisa-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetSisaAntrianFiberHandler)
 	api.Post("batal-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.BatalAntreanFiberHandler)
 	api.Post("check-in", rest.JWTVeifyHandler(Logging), s.AntrianHandler.CheckInFiberHandler)
+	// PASIEN BARU
 	api.Post("pasien-baru", rest.JWTVeifyHandler(Logging), s.AntrianHandler.RegisterPasienBaruFiberHandler)
 	api.Post("get-jadwal-operasi", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetJadwalOperasiFiberHandler)
 	api.Post("list-jadwal-operasi", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetKodeBookingOperasiFiberHandler)
@@ -45,6 +46,8 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	// NEW FITUR, ANTREAN FARMASI
 	api.Post("ambil-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.AmbilAntreanFarmasiFiberHandler)
 	api.Post("status-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.StatusAntreanFarmasiFiberHandler)
+	// cari profile pasien
+	api.Post("profile-pasien", rest.JWTVeifyHandler(Logging), s.UserHandler.ProfilePasienFiberHandler)
 
 	err := app.Listen(os.Getenv("DEPLOY_PORT"))
 

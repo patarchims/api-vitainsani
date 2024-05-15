@@ -31,7 +31,7 @@ func (au *antrianUseCase) GetStatusAntreanUsecase(payload *dto.StatusAntrianRequ
 	detailKTaripDokter, err := au.antrianRepository.DetailTaripDokterByMapingAntrolRepository(payload.KodeDokter)
 
 	if err != nil || detailKTaripDokter.Iddokter == "" {
-		return res, errors.New("Dokter tidak ditemukan")
+		return res, errors.New("dokter tidak ditemukan")
 	}
 
 	lastCalled, _ := au.antrianRepository.LastCalledRepository(payload)
@@ -113,9 +113,12 @@ func (au *antrianUseCase) CheckedInUsecase(req dto.CheckInRequest) (isSuccess bo
 	}
 	return true, nil
 }
+
 func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRequest) (res dto.ResPasienBaru, err error) {
 
-	exists := au.antrianRepository.CheckPasienDuplikatRepository(req.Nomorkartu)
+	// exists := au.antrianRepository.CheckPasienDuplikatRepository(req.Nomorkartu)
+	exists := au.antrianRepository.CheckPasienDProfilePasienRepository(req.Nomorkartu)
+	// CheckPasienDProfilePasienRepository(noka string) (isDuplicate bool)
 
 	if exists {
 		message := "data peserta sudah pernah dientrikan"
@@ -136,6 +139,10 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	case "L":
 		jenisKelamin = "Laki-Laki"
 	case "P":
+		jenisKelamin = "Perempuan"
+	case "l":
+		jenisKelamin = "Laki-Laki"
+	case "p":
 		jenisKelamin = "Perempuan"
 	default:
 		jenisKelamin = ""

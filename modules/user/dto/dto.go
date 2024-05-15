@@ -11,4 +11,8 @@ type (
 		Username string
 		Token    string
 	}
+
+	RequestProfile struct {
+		Parameter string `json:"param" bson:"param"`
+	}
 )
