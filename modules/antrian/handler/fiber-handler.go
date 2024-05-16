@@ -39,24 +39,23 @@ func (ah *AntrianHandler) GetStatusAntrianFiberHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	detailPoli, err := ah.AntrianRepository.CariPoliRepository(payload.KodePoli)
+	detailPoli, err12 := ah.AntrianRepository.CariPoliRepository(payload.KodePoli)
 
-	if err != nil || detailPoli.Kodepoli == "" {
+	if err12 != nil || detailPoli.Kodepoli == "" {
 		response := helper.APIResponseFailure("Poli tidak ditemukan", http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	m, err := ah.AntrianUseCase.GetStatusAntreanUsecaseV2(payload, detailPoli)
+	m, err1 := ah.AntrianUseCase.GetStatusAntreanUsecaseV2(payload, detailPoli)
 
-	if err != nil {
-		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
+	if err1 != nil {
+		response := helper.APIResponseFailure(err1.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, m)
-	ah.Logging.Info(response)
+	response := helper.APIResponse("OK", http.StatusOK, m)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -64,23 +63,21 @@ func (ah *AntrianHandler) GetSisaAntrianFiberHandler(c *fiber.Ctx) error {
 	payload := new(dto.GetSisaAntrianRequestV2)
 	errs := c.BodyParser(&payload)
 
-	// data, _ := json.Marshal(payload)
-
 	if errs != nil {
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	datas, errs := ah.AntrianRepository.GetSisaAntreanRepositoryV2(*payload)
+	datas, errs1 := ah.AntrianRepository.GetSisaAntreanRepositoryV2(*payload)
 
-	if errs != nil || datas.Nomorantrean == "" {
-		response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
+	if errs1 != nil || datas.Nomorantrean == "" {
+		response := helper.APIResponseFailure(errs1.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, datas)
+	response := helper.APIResponse("OK", http.StatusOK, datas)
 	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 
@@ -96,16 +93,15 @@ func (ah *AntrianHandler) BatalAntreanFiberHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	isSuccessBatal, err := ah.AntrianUseCase.BatalAntreanUsecaseV2(*payload)
+	isSuccessBatal, err12 := ah.AntrianUseCase.BatalAntreanUsecaseV2(*payload)
 
-	if err != nil || !isSuccessBatal {
-		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
+	if err12 != nil || !isSuccessBatal {
+		response := helper.APIResponseFailure(err12.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	response := helper.APIResponseFailure("Ok", http.StatusOK)
-	ah.Logging.Info(response)
+	response := helper.APIResponseFailure("OK", http.StatusOK)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -128,7 +124,7 @@ func (ah *AntrianHandler) CheckInFiberHandler(c *fiber.Ctx) error {
 	}
 
 	// REPONSE HANYA
-	response := helper.APIResponseFailure("Ok", http.StatusOK)
+	response := helper.APIResponseFailure("OK", http.StatusOK)
 	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
@@ -198,7 +194,7 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 	jadwalOperasiMapper := ah.IAntrianMapper.ToJadwalOperasiDTOMapper(jadwalOperasi, false)
 	m["list"] = jadwalOperasiMapper
 
-	response := helper.APIResponse("Ok", http.StatusOK, m)
+	response := helper.APIResponse("OK", http.StatusOK, m)
 	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
@@ -236,33 +232,33 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	detaiProfilPasien, err := ah.AntrianRepository.CheckMedrekRepository(payload.Nik)
+	detaiProfilPasien, err11 := ah.AntrianRepository.CheckMedrekRepository(payload.Nik)
 
-	if err != nil || detaiProfilPasien.Id == "" {
+	if err11 != nil || detaiProfilPasien.Id == "" {
 		message := fmt.Sprintf("%s belum terdaftar rekam medis, silahkan daftar terlebih dahulu", payload.Nomorkartu)
 		response := helper.APIResponseFailure(message, http.StatusAccepted)
 		ah.Logging.Info(message)
 		return c.Status(fiber.StatusAccepted).JSON(response)
 	}
 
-	detailPoli, err := ah.AntrianRepository.CariPoliRepository(payload.Kodepoli)
+	detailPoli, err1 := ah.AntrianRepository.CariPoliRepository(payload.Kodepoli)
 
-	if err != nil || detailPoli.Kodepoli == "" {
+	if err1 != nil || detailPoli.Kodepoli == "" {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
 		ah.Logging.Info(message)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	result, err := ah.AntrianUseCase.AmbilAntreanUsecaseV2(*payload, detailPoli, detaiProfilPasien)
+	result, err12 := ah.AntrianUseCase.AmbilAntreanUsecaseV2(*payload, detailPoli, detaiProfilPasien)
 
-	if err != nil {
-		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
+	if err12 != nil {
+		response := helper.APIResponseFailure(err12.Error(), http.StatusCreated)
 		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
-	response := helper.APIResponse("Ok", http.StatusOK, result)
+	response := helper.APIResponse("OK", http.StatusOK, result)
 	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
