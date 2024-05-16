@@ -63,7 +63,7 @@ func RunApplication() {
 	// USECASE LAYER
 	uu := userUseCase.NewUserUseCase(repoUser)
 	fu := farmasiUseCase.FarmasiUseCase(repoFarmasi, mapperFarmasi)
-	au := antrianUseCase.NewAntrianUseCase(repoAntrian, mapperAntrian)
+	au := antrianUseCase.NewAntrianUseCase(repoAntrian, mapperAntrian, logging)
 	mu := mutiaraUseCase.MutiaraUseCase(repoMutiara, mutiaraMapper)
 
 	// HANDLER

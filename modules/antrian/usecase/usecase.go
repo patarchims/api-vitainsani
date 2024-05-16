@@ -12,17 +12,21 @@ import (
 	"vincentcoreapi/modules/antrian/dto"
 	"vincentcoreapi/modules/antrian/entity"
 	"vincentcoreapi/modules/antrian/mapper"
+
+	"github.com/sirupsen/logrus"
 )
 
 type antrianUseCase struct {
 	antrianRepository entity.AntrianRepository
 	IAntrianMapper    mapper.IAntrianMapper
+	logging           *logrus.Logger
 }
 
-func NewAntrianUseCase(ar entity.AntrianRepository, IAntrianMapper mapper.IAntrianMapper) entity.AntrianUseCase {
+func NewAntrianUseCase(ar entity.AntrianRepository, IAntrianMapper mapper.IAntrianMapper, logging *logrus.Logger) entity.AntrianUseCase {
 	return &antrianUseCase{
 		antrianRepository: ar,
 		IAntrianMapper:    IAntrianMapper,
+		logging:           logging,
 	}
 }
 
@@ -121,6 +125,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 
 	if exists {
 		message := "data peserta sudah pernah dientrikan"
+		au.logging.Info(message)
 		return res, errors.New(message)
 	}
 
@@ -129,6 +134,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 
 	if errs != nil {
 		message := "gagal mendapatkan nomor rekam medis"
+		au.logging.Info(message)
 		return res, errors.New(message)
 	}
 
@@ -147,11 +153,11 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 		jenisKelamin = ""
 	}
 
-	tgl, _ := time.Parse("2006-01-02", (req.Tanggallahir))
-	birthDate := time.Date(tgl.Year(), tgl.Month(), tgl.Day(), 0, 0, 0, 0, time.UTC)
-	currentDate := time.Now()
-	ageDuration := currentDate.Sub(birthDate)
-	ageInYears := ageDuration.Hours() / 24 / 365
+	// tgl, _ := time.Parse("2006-01-02", (req.Tanggallahir))
+	// birthDate := time.Date(tgl.Year(), tgl.Month(), tgl.Day(), 0, 0, 0, 0, time.UTC)
+	// currentDate := time.Now()
+	// ageDuration := currentDate.Sub(birthDate)
+	// ageInYears := ageDuration.Hours() / 24 / 365
 
 	var pasien = antrian.Dprofilpasien{
 		Id:           noRm.Norm,
@@ -166,14 +172,15 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 		Kecamatan:    req.Namakec,
 		Propinsi:     req.Namaprop,
 		Kabupaten:    req.Namadati2,
-		Umurth:       int(ageInYears),
-		Negara:       "Indonesia",
-		Hp:           req.Nohp,
+		// Umurth:       int(ageInYears),
+		Negara: "Indonesia",
+		Hp:     req.Nohp,
 	}
 
 	newPasien, err2 := au.antrianRepository.InsertPasienBaruDprofilePasien(pasien)
 
 	if err2 != nil {
+		au.logging.Info("data Gagal disimpan")
 		return res, errors.New("data Gagal disimpan")
 	}
 

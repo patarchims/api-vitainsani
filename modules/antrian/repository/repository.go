@@ -687,6 +687,7 @@ func (ar *antrianRepository) GetNormPasienRepository() (res antrian.IDPasien, er
 // ======================== INSERT PASIEN BARU, KE DPROFILPASIEN
 func (ar *antrianRepository) InsertPasienBaruDprofilePasien(pasienBaru antrian.Dprofilpasien) (res antrian.Dprofilpasien, err error) {
 	result := ar.DB.Create(&pasienBaru).Scan(&res)
+
 	if result.Error != nil || result.RowsAffected == 0 {
 		return res, result.Error
 	}

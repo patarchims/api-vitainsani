@@ -146,10 +146,12 @@ func (ah *AntrianHandler) RegisterPasienBaruFiberHandler(c *fiber.Ctx) error {
 
 	if errs12 != nil || result.Norm == "" {
 		response := helper.APIResponseFailure(errs12.Error(), http.StatusCreated)
+		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
 	response := helper.APIResponse("Harap datang ke admisi untuk melengkapi data Rekam Medis", http.StatusOK, result)
+	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
