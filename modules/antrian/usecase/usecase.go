@@ -130,7 +130,7 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	}
 
 	// GET ID BARU
-	noRm, errs := au.antrianRepository.GetNormPasienRepository()
+	no, errs := au.antrianRepository.GetNormPasienRepository()
 
 	if errs != nil {
 		message := "gagal mendapatkan nomor rekam medis"
@@ -157,10 +157,11 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 	// birthDate := time.Date(tgl.Year(), tgl.Month(), tgl.Day(), 0, 0, 0, 0, time.UTC)
 	// currentDate := time.Now()
 	// ageDuration := currentDate.Sub(birthDate)
+	// Umurth:       int(ageInYears),
 	// ageInYears := ageDuration.Hours() / 24 / 365
 
 	var pasien = antrian.Dprofilpasien{
-		Id:           noRm.Norm,
+		Id:           no.Norm,
 		Nik:          req.Nik,
 		Nokapst:      req.Nomorkartu,
 		Firstname:    req.Nama,
@@ -172,19 +173,18 @@ func (au *antrianUseCase) RegisterPasienBaruUsecase(req dto.RegisterPasienBaruRe
 		Kecamatan:    req.Namakec,
 		Propinsi:     req.Namaprop,
 		Kabupaten:    req.Namadati2,
-		// Umurth:       int(ageInYears),
-		Negara: "Indonesia",
-		Hp:     req.Nohp,
+		Negara:       "Indonesia",
+		Hp:           req.Nohp,
 	}
 
-	newPasien, err2 := au.antrianRepository.InsertPasienBaruDprofilePasien(pasien)
+	_, err2 := au.antrianRepository.InsertPasienBaruDprofilePasien(pasien)
 
 	if err2 != nil {
 		au.logging.Info("data Gagal disimpan")
 		return res, errors.New("data Gagal disimpan")
 	}
 
-	res.Norm = newPasien.Id
+	res.Norm = no.Norm
 
 	return res, nil
 }
