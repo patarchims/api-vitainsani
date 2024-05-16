@@ -67,5 +67,3 @@ func (ApiUser) TableName() string {
 func (DProfilePasien) TableName() string {
 	return "his.dprofilpasien"
 }
-
-// DROFILE PASIEN

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"time"
 	"vincentcoreapi/exception"
 
 	"github.com/goccy/go-json"
@@ -17,5 +18,7 @@ func NewFiberConfig() fiber.Config {
 		StrictRouting: true,
 		ServerHeader:  "Fiber",
 		AppName:       "Aplikasi Mobile Vita Insani API v1.0.1",
+		WriteTimeout:  15 * time.Second,
+		ReadTimeout:   15 * time.Second,
 	}
 }

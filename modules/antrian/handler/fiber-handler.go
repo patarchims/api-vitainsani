@@ -183,7 +183,6 @@ func (ah *AntrianHandler) GetJadwalOperasiFiberHandler(c *fiber.Ctx) error {
 	// VALIDASI TANGGAL AKHIR TIDAK BOLEH LEBIH KECIL DARI TANGAL AWAL
 	if date2.Unix() < date1.Unix() {
 		response := helper.APIResponseFailure("Tangal Akhir Tidak Boleh Lebih Kecil dari Tanggal Awal", http.StatusCreated)
-		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -218,7 +217,6 @@ func (ah *AntrianHandler) GetKodeBookingOperasiFiberHandler(c *fiber.Ctx) error 
 
 	if err != nil {
 		response := helper.APIResponseFailure(err.Error(), http.StatusCreated)
-		ah.Logging.Info(response)
 		return c.Status(fiber.StatusOK).JSON(response)
 	}
 
