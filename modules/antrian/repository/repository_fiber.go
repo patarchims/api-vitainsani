@@ -58,7 +58,7 @@ func (ar *antrianRepository) GetSisaAntreanRepositoryV2(req dto.GetSisaAntrianRe
 
 	if result.Error != nil || kodeBook.NoAntrian == "" {
 		log.Println("[Error Query]", err)
-		return res, errors.New("Antrean dengan kode booking tersebut tidak ditemukan")
+		return res, errors.New("antrean dengan kode booking tersebut tidak ditemukan")
 	}
 
 	type SisaAntrean struct {
@@ -71,14 +71,13 @@ func (ar *antrianRepository) GetSisaAntreanRepositoryV2(req dto.GetSisaAntrianRe
 
 	quers := `
 	SELECT COUNT(*) AS sisaantrean ,(COUNT(*)*? )*60 AS waktutunggu,no_antrian AS antrianpanggil FROM rekam.antrian_ol
-	WHERE kd_dokter=SUBSTRING_INDEX((SUBSTRING_INDEX(?,'-',2) ),'-',-1) AND CAST(no_antrian AS SIGNED INTEGER)<CAST(RIGHT(?,3) AS SIGNED INTEGER) AND STATUS='tunggu'
-	AND tgl_periksa=CONCAT(SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,1,4),'-',SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,5,2),'-', SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,7,2))
+	WHERE kd_dokter=SUBSTRING_INDEX((SUBSTRING_INDEX(?,'-',2) ),'-',-1) AND CAST(no_antrian AS SIGNED INTEGER)<CAST(RIGHT(?,3) AS SIGNED INTEGER) AND STATUS='tunggu' AND tgl_periksa=CONCAT(SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,1,4),'-',SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,5,2),'-', SUBSTRING(SUBSTRING_INDEX(?,'-',-1) ,7,2))
 	`
 	value := ar.DB.Raw(quers, kodeBook.EstimasiPerPasien, req.Kodebooking, req.Kodebooking, req.Kodebooking, req.Kodebooking, req.Kodebooking).Scan(&sisa)
 
 	if value.Error != nil {
 		log.Println("[Error Query]", value.Error)
-		return res, errors.New("Error query")
+		return res, value.Error
 	}
 
 	res.Nomorantrean = kodeBook.NoAntrian
@@ -97,23 +96,32 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 	// TODO : RUMAH SAKIT VITA INSANI
 
 	query1 := `
-		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
-			CONCAT('RSVI-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,
-			? AS date
-		FROM rekam.antrian_ol
-		WHERE tgl_periksa = ?
-		AND kd_dokter = ?
+			SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,CONCAT('VIAJ-',?,'-',REPLACE(CURDATE(),'-',''), COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,CURDATE() AS date,CURTIME() AS time FROM rekam.antrian_ol  WHERE tgl_periksa=CURDATE() AND kd_dokter=? AND kode_debitur='BPJS'	
 	`
+
+	// query1 := `
+	// 	SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
+	// 		CONCAT('RSVI-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,
+	// 		? AS date
+	// 	FROM rekam.antrian_ol
+	// 	WHERE tgl_periksa = ?
+	// 	AND kd_dokter = ?
+	// `
 
 	type Result1 struct {
 		NoAntre string
 		Kobook  string
 		Date    string
+		Time    string
 	}
 
 	result1 := Result1{}
-	err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, req.Tanggalperiksa, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
+
+	err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, detailKTaripDokter.Iddokter).
 		Scan(&result1).Error
+
+	// err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, req.Tanggalperiksa, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
+	// 	Scan(&result1).Error
 
 	if err != nil {
 		fmt.Println("ERROR QUERY RESULT")

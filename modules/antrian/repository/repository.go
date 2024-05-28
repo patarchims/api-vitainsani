@@ -610,7 +610,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepository(req dto.GetAntrianReque
 }
 
 // TIMEELAPSED
-func (ar *antrianRepository) getTimeElapsed(tglPeriksa, kodeDokterRs string, estimasiPerPasien, jumlahAntrean int64, detailKTaripDokter antrian.KtaripDokter) string {
+func (ar *antrianRepository) getTimeElapsed(tglPeriksa, _ string, estimasiPerPasien, jumlahAntrean int64, detailKTaripDokter antrian.KtaripDokter) string {
 	date, _ := time.Parse("2006-01-02", tglPeriksa)
 	number := strings.ToLower(date.Format("Mon"))
 

@@ -48,6 +48,7 @@ func RunApplication() {
 	}
 
 	db := config.InitMysqlDB()
+
 	logging := logs.NewLogger()
 
 	repoUser := repositoryUser.NewUserRepository(db)
@@ -83,6 +84,5 @@ func RunApplication() {
 	}
 
 	// ROUTING APP
-	// service.RoutingAndListen(logging)
 	service.RoutingFiberAndListen(logging)
 }
