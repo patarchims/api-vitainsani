@@ -95,18 +95,17 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 
 	// TODO : RUMAH SAKIT VITA INSANI
 
-	query1 := `
-			SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,CONCAT('VIAJ-',?,'-',REPLACE(CURDATE(),'-',''), COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,CURDATE() AS date,CURTIME() AS time FROM rekam.antrian_ol  WHERE tgl_periksa=CURDATE() AND kd_dokter=? AND kode_debitur='BPJS'	
-	`
-
 	// query1 := `
-	// 	SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
-	// 		CONCAT('RSVI-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,
-	// 		? AS date
-	// 	FROM rekam.antrian_ol
-	// 	WHERE tgl_periksa = ?
-	// 	AND kd_dokter = ?
+	// 		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,CONCAT('VIAJ-',?,'-',REPLACE(CURDATE(),'-',''), COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook, CURDATE() AS date,CURTIME() AS time FROM rekam.antrian_ol  WHERE tgl_periksa=? AND kd_dokter=? AND kode_debitur='BPJS'
 	// `
+
+	query1 := `
+		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
+			CONCAT('VIAJ-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,
+			? AS date
+		FROM rekam.antrian_ol
+		WHERE tgl_periksa = ? AND kd_dokter = ? AND kode_debitur='BPJS'
+	`
 
 	type Result1 struct {
 		NoAntre string
@@ -117,11 +116,11 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 
 	result1 := Result1{}
 
-	err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, detailKTaripDokter.Iddokter).
-		Scan(&result1).Error
-
-	// err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, req.Tanggalperiksa, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
+	// err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, detailKTaripDokter.Iddokter).
 	// 	Scan(&result1).Error
+
+	err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, req.Tanggalperiksa, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
+		Scan(&result1).Error
 
 	if err != nil {
 		fmt.Println("ERROR QUERY RESULT")
