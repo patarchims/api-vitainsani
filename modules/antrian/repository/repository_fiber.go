@@ -91,7 +91,7 @@ func (ar *antrianRepository) GetSisaAntreanRepositoryV2(req dto.GetSisaAntrianRe
 	return res, nil
 }
 
-func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error) {
+func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien, umum int) (response dto.InsertPasienDTO, err error) {
 
 	// TODO : RUMAH SAKIT VITA INSANI
 
@@ -100,8 +100,8 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 	// `
 
 	query1 := `
-		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001') AS no_antre,
-			CONCAT('VIAJ-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0),'001')) AS kobook,
+		SELECT COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0), ?) AS no_antre,
+			CONCAT('VIAJ-', ? ,'-',REPLACE(?,'-',''),COALESCE(LPAD(CONVERT(@last_no_antrian :=MAX(no_antrian),SIGNED INTEGER)+1,3,0), ?)) AS kobook,
 			? AS date
 		FROM rekam.antrian_ol
 		WHERE tgl_periksa = ? AND kd_dokter = ? AND kode_debitur='BPJS'
@@ -111,7 +111,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 		NoAntre string
 		Kobook  string
 		Date    string
-		Time    string
+		// Time    string
 	}
 
 	result1 := Result1{}
@@ -119,7 +119,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 	// err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, detailKTaripDokter.Iddokter).
 	// 	Scan(&result1).Error
 
-	err = ar.DB.Raw(query1, detailKTaripDokter.Iddokter, req.Tanggalperiksa, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
+	err = ar.DB.Raw(query1, umum, detailKTaripDokter.Iddokter, req.Tanggalperiksa, umum, req.Tanggalperiksa, req.Tanggalperiksa, detailKTaripDokter.Iddokter).
 		Scan(&result1).Error
 
 	if err != nil {
@@ -130,6 +130,7 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 
 	// Jumlah Antrian
 	antrians := []antrian.AntrianOl{}
+
 	if err = ar.DB.Where("status = ? AND tgl_periksa = ? AND kd_dokter = ? AND kode_debitur=? ", "tunggu", req.Tanggalperiksa, detailKTaripDokter.Iddokter, "BPJS").Find(&antrians).Error; err != nil {
 		return response, err
 	}
@@ -160,30 +161,29 @@ func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianReq
 		Noka:               req.Nomorkartu,
 		Jeniskunjungan:     strconv.Itoa(req.Jeniskunjungan),
 		NoRujukan:          req.Nomorreferensi,
-		// SIMPAN NO HP KE ANTRIAN OL
-		NoHp:            req.Nohp,
-		KodeTujuan:      detailPoli.Kodepoli,
-		Tujuan:          detailPoli.Namapoli,
-		TglPeriksa:      req.Tanggalperiksa,
-		KdDokter:        detailKTaripDokter.Iddokter,
-		Dokter:          detailKTaripDokter.Namadokter,
-		NoAntrian:       result1.NoAntre,
-		KodeDebitur:     "BPJS",
-		Debitur:         "JKN-BPJS",
-		BookDate:        time.Now().Format("2006-01-02 15:04:05"),
-		NoBook:          result1.Kobook,
-		JknNomorkk:      "0000000000000000",
-		JknTanggallahir: "000-00-00",
-		JknKodeprop:     "00",
-		JknKodedati2:    "0000",
-		JknNamadati2:    "kosong",
-		JknKodekec:      "0000",
-		JknNamakec:      "kosong",
-		JknKodekel:      "0000",
-		JknNamakel:      "kosong",
-		JknRw:           "00",
-		JknRt:           "00",
-		CheckedIn:       "",
+		NoHp:               req.Nohp,
+		KodeTujuan:         detailPoli.Kodepoli,
+		Tujuan:             detailPoli.Namapoli,
+		TglPeriksa:         req.Tanggalperiksa,
+		KdDokter:           detailKTaripDokter.Iddokter,
+		Dokter:             detailKTaripDokter.Namadokter,
+		NoAntrian:          result1.NoAntre,
+		KodeDebitur:        "BPJS",
+		Debitur:            "JKN-BPJS",
+		BookDate:           time.Now().Format("2006-01-02 15:04:05"),
+		NoBook:             result1.Kobook,
+		JknNomorkk:         "0000000000000000",
+		JknTanggallahir:    "000-00-00",
+		JknKodeprop:        "00",
+		JknKodedati2:       "0000",
+		JknNamadati2:       "kosong",
+		JknKodekec:         "0000",
+		JknNamakec:         "kosong",
+		JknKodekel:         "0000",
+		JknNamakel:         "kosong",
+		JknRw:              "00",
+		JknRt:              "00",
+		CheckedIn:          "",
 	}
 
 	ar.DB.Create(&data2)

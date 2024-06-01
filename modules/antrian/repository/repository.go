@@ -86,6 +86,20 @@ func (ar *antrianRepository) LastCalledRepository(payload *dto.StatusAntrianRequ
 	return res, err
 }
 
+// CEK KTARIPDOKTER DUA
+func (ar *antrianRepository) DetailKtaripDokter2AntrolRepository(idDokter string) (res antrian.KtaripDokter2, err error) {
+	query := "SELECT iddokter,namadokter, quota_pasien, quota_pasien_mon, quota_pasien_tue, quota_pasien_wed, quota_pasien_thu, quota_pasien_fri,quota_pasien_sat FROM his.ktaripdokter2 WHERE 1=1 AND iddokter = ? "
+	rs := ar.DB.Raw(query, idDokter).Scan(&res)
+	if rs.Error != nil {
+		return res, err
+	}
+	if rs.RowsAffected > 0 {
+		return res, nil
+	}
+
+	return res, err
+}
+
 func (ar *antrianRepository) DetailTaripDokterByMapingAntrolRepository(mapingAntrol int) (res antrian.KtaripDokter, err error) {
 	query := "SELECT * FROM his.ktaripdokter WHERE 1=1 AND maping_antrol = ? "
 	rs := ar.DB.Raw(query, mapingAntrol).Scan(&res)
@@ -98,6 +112,8 @@ func (ar *antrianRepository) DetailTaripDokterByMapingAntrolRepository(mapingAnt
 
 	return res, err
 }
+
+// GET KTARIP DOKTER DUA
 
 func (ar *antrianRepository) GetKodeDokterRsRepository(params map[string]interface{}) (res map[string]interface{}, err error) {
 	var result map[string]interface{}

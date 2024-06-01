@@ -176,6 +176,18 @@ type (
 		Jampraktek        string `gorm:"-"`
 	}
 
+	KtaripDokter2 struct {
+		Namadokter     string `json:"namadokter"`
+		Alamat         string `json:"alamat"`
+		Iddokter       string `json:"iddokter"`
+		QuotaPasien    int    `json:"quota_pasien"`
+		QuotaPasienTue int    `json:"tue"`
+		QuotaPasienWed int    `json:"wed"`
+		QuotaPasienThu int    `json:"thu"`
+		QuotaPasienFri int    `json:"fri"`
+		QuotaPasienSat int    `json:"sat"`
+	}
+
 	AntreanOlPol struct {
 		Nomorantrean   string `json:"nomorantrean"`
 		Namapoli       string `json:"namapoli"`

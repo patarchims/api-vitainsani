@@ -103,14 +103,12 @@ func (au *antrianUseCase) GetKodeBookingOperasiByNoPesertaUsecaseV2(req dto.Jadw
 
 func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error) {
 
-	// Validasi nomor antrean hanya boleh diambil
-	// Satu kali pada tanggal dan poli yang sama
 	alreadyGetAntrean, err := au.antrianRepository.CheckAntreanRepository(req.Nomorkartu, req.Tanggalperiksa, req.Kodepoli)
+
 	if err != nil || alreadyGetAntrean > 0 {
 		return response, err
 	}
 
-	// DETAIL KTARIPDOKTER
 	detailKTaripDokter, err := au.antrianRepository.DetailTaripDokterByMapingAntrolRepository(req.Kodedokter)
 
 	if err != nil || detailKTaripDokter.Iddokter == "" {
@@ -123,32 +121,41 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 
 	date, _ := time.Parse("2006-01-02", req.Tanggalperiksa)
 	hari := strings.ToLower(date.Format("Mon"))
+	ktaripDokter2, _ := au.antrianRepository.DetailKtaripDokter2AntrolRepository(detailKTaripDokter.Iddokter)
 
 	var kuota int
 	var jadwalToday int
+	var kuotaUmum int
 
 	switch hari {
 	case "mon":
 		kuota = detailKTaripDokter.QuotaPasienMon
 		jadwalToday = detailKTaripDokter.Mon
+		kuotaUmum = ktaripDokter2.QuotaPasien
 	case "tue":
 		kuota = detailKTaripDokter.QuotaPasienTue
 		jadwalToday = detailKTaripDokter.Tue
+		kuotaUmum = ktaripDokter2.QuotaPasienTue
 	case "wed":
 		kuota = detailKTaripDokter.QuotaPasienWed
 		jadwalToday = detailKTaripDokter.Wed
+		kuotaUmum = ktaripDokter2.QuotaPasienWed
 	case "thu":
 		kuota = detailKTaripDokter.QuotaPasienThu
 		jadwalToday = detailKTaripDokter.Thu
+		kuotaUmum = ktaripDokter2.QuotaPasienThu
 	case "fri":
 		kuota = detailKTaripDokter.QuotaPasienFri
 		jadwalToday = detailKTaripDokter.Fri
+		kuotaUmum = ktaripDokter2.QuotaPasienFri
 	case "sat":
 		kuota = detailKTaripDokter.QuotaPasienSat
 		jadwalToday = detailKTaripDokter.Sat
+		kuotaUmum = ktaripDokter2.QuotaPasienSat
 	case "sun":
 		kuota = 0
 		jadwalToday = detailKTaripDokter.Sun
+		kuotaUmum = ktaripDokter2.QuotaPasien
 	}
 
 	if jumlahJadwal == 0 {
@@ -169,7 +176,6 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 		return response, errors.New(message)
 	}
 
-	// validasi poli // tutup atau kuota habis
 	checkKuota := au.antrianRepository.CheckKuotaRepository(req.Tanggalperiksa, detailKTaripDokter.Iddokter, kuota)
 
 	if !checkKuota {
@@ -177,7 +183,9 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 		return response, errors.New(message)
 	}
 
-	result, err := au.antrianRepository.InsertAntreanMjknRepositoryV2(req, detailKTaripDokter, kuota, detailPoli, detaiProfilPasien)
+	// ID DOKTER
+
+	result, err := au.antrianRepository.InsertAntreanMjknRepositoryV2(req, detailKTaripDokter, kuota, detailPoli, detaiProfilPasien, kuotaUmum)
 
 	if err != nil {
 		log.Fatal(err.Error())
