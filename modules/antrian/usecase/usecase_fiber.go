@@ -186,15 +186,15 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	var saatIniKuoata = ""
 
 	if lenLoop(kuotaUmum) == 3 {
-		saatIniKuoata = strconv.Itoa(kuotaUmum)
+		saatIniKuoata = strconv.Itoa(kuotaUmum + 1)
 	}
 
 	if lenLoop(kuotaUmum) == 2 {
-		saatIniKuoata = "0" + strconv.Itoa(kuotaUmum)
+		saatIniKuoata = "0" + strconv.Itoa(kuotaUmum+1)
 	}
 
 	if lenLoop(kuotaUmum) == 1 {
-		saatIniKuoata = "00" + strconv.Itoa(kuotaUmum)
+		saatIniKuoata = "00" + strconv.Itoa(kuotaUmum+1)
 	}
 
 	result, err := au.antrianRepository.InsertAntreanMjknRepositoryV2(req, detailKTaripDokter, kuota, detailPoli, detaiProfilPasien, saatIniKuoata)
