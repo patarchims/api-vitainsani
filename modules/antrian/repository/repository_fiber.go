@@ -91,7 +91,7 @@ func (ar *antrianRepository) GetSisaAntreanRepositoryV2(req dto.GetSisaAntrianRe
 	return res, nil
 }
 
-func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien, umum int) (response dto.InsertPasienDTO, err error) {
+func (ar *antrianRepository) InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien, umum string) (response dto.InsertPasienDTO, err error) {
 
 	// TODO : RUMAH SAKIT VITA INSANI
 

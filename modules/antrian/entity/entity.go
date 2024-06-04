@@ -50,7 +50,7 @@ type AntrianRepository interface {
 
 	InsertAntreanMjknRepository(req dto.GetAntrianRequest, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien) (response dto.InsertPasienDTO, err error)
 	GetSisaAntreanRepositoryV2(req dto.GetSisaAntrianRequestV2) (res dto.SisaAntreanResnonse, err error)
-	InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien, umum int) (response dto.InsertPasienDTO, err error)
+	InsertAntreanMjknRepositoryV2(req dto.GetAntrianRequestV2, detailKTaripDokter antrian.KtaripDokter, kotaHariIni int, detailPoli antrian.Kpoli, detaiProfilPasien antrian.Dprofilpasien, umum string) (response dto.InsertPasienDTO, err error)
 	JmlAntreanRepositoryV2(payload *dto.StatusAntrianRequestV2, kodeDokter string) (res int, err error)
 	LastCalledRepositoryV2(payload *dto.StatusAntrianRequestV2) (res antrian.LastCalled, err error)
 	ListAntrianTodayRepository() (res []antrian.AntrianOl, err error)

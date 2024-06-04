@@ -41,7 +41,7 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	api.Post("pasien-baru", rest.JWTVeifyHandler(Logging), s.AntrianHandler.RegisterPasienBaruFiberHandler)
 	api.Post("get-jadwal-operasi", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetJadwalOperasiFiberHandler)
 	api.Post("list-jadwal-operasi", rest.JWTVeifyHandler(Logging), s.AntrianHandler.GetKodeBookingOperasiFiberHandler)
-	// AMBIL ANTREAN 
+	// AMBIL ANTREAN
 	api.Post("ambil-antrean", rest.JWTVeifyHandler(Logging), s.AntrianHandler.AmbilAntreanFiberHandler)
 
 	// NEW FITUR, ANTREAN FARMASI

@@ -166,7 +166,6 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	if jadwalToday == 0 {
 		message := fmt.Sprintf("Pendaftaran ke %s Sedang Tutup", detailPoli.Namapoli)
 		return response, errors.New(message)
-
 	}
 
 	dokterCuti, _ := au.antrianRepository.CheckDokterLiburRepository(req.Tanggalperiksa, detailKTaripDokter.Iddokter)
@@ -183,9 +182,22 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 		return response, errors.New(message)
 	}
 
-	// ID DOKTER
+	// KOUTA SAAT INI
+	var saatIniKuoata = ""
 
-	result, err := au.antrianRepository.InsertAntreanMjknRepositoryV2(req, detailKTaripDokter, kuota, detailPoli, detaiProfilPasien, kuotaUmum)
+	if lenLoop(kuotaUmum) == 3 {
+		saatIniKuoata = strconv.Itoa(kuotaUmum)
+	}
+
+	if lenLoop(kuotaUmum) == 2 {
+		saatIniKuoata = "0" + strconv.Itoa(kuotaUmum)
+	}
+
+	if lenLoop(kuotaUmum) == 1 {
+		saatIniKuoata = "00" + strconv.Itoa(kuotaUmum)
+	}
+
+	result, err := au.antrianRepository.InsertAntreanMjknRepositoryV2(req, detailKTaripDokter, kuota, detailPoli, detaiProfilPasien, saatIniKuoata)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -193,4 +205,16 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	}
 
 	return result, nil
+}
+
+func lenLoop(i int) int {
+	if i == 0 {
+		return 1
+	}
+	count := 0
+	for i != 0 {
+		i /= 10
+		count++
+	}
+	return count
 }

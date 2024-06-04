@@ -219,7 +219,6 @@ func (ah *AntrianHandler) GetKodeBookingOperasiFiberHandler(c *fiber.Ctx) error 
 	}
 
 	response := helper.APIResponse("Ok", http.StatusOK, jadwalOperasi)
-	ah.Logging.Info(response)
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
@@ -230,7 +229,6 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 	if errs != nil {
 		ah.Logging.Info("Data tidak boleh ada yang null!")
 		response := helper.APIResponseFailure("Data tidak boleh ada yang null!", http.StatusCreated)
-		ah.Logging.Info(response)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
@@ -239,7 +237,6 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 	if err11 != nil || detaiProfilPasien.Id == "" {
 		message := fmt.Sprintf("%s belum terdaftar rekam medis, silahkan daftar terlebih dahulu", payload.Nomorkartu)
 		response := helper.APIResponseFailure(message, http.StatusAccepted)
-		ah.Logging.Info(message)
 		return c.Status(fiber.StatusAccepted).JSON(response)
 	}
 
@@ -248,7 +245,6 @@ func (ah *AntrianHandler) AmbilAntreanFiberHandler(c *fiber.Ctx) error {
 	if err1 != nil || detailPoli.Kodepoli == "" {
 		message := fmt.Sprintf("%s kode poli tersebut tidak ditemukan", payload.Kodepoli)
 		response := helper.APIResponseFailure(message, http.StatusCreated)
-		ah.Logging.Info(message)
 		return c.Status(fiber.StatusCreated).JSON(response)
 	}
 
