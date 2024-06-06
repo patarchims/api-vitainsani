@@ -181,6 +181,7 @@ type (
 		Alamat         string `json:"alamat"`
 		Iddokter       string `json:"iddokter"`
 		QuotaPasien    int    `json:"quota_pasien"`
+		QuotaPasienMon int    `json:"mon"`
 		QuotaPasienTue int    `json:"tue"`
 		QuotaPasienWed int    `json:"wed"`
 		QuotaPasienThu int    `json:"thu"`

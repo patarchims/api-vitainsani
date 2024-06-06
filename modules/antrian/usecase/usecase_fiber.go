@@ -131,7 +131,7 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	case "mon":
 		kuota = detailKTaripDokter.QuotaPasienMon
 		jadwalToday = detailKTaripDokter.Mon
-		kuotaUmum = ktaripDokter2.QuotaPasien
+		kuotaUmum = ktaripDokter2.QuotaPasienMon
 	case "tue":
 		kuota = detailKTaripDokter.QuotaPasienTue
 		jadwalToday = detailKTaripDokter.Tue
@@ -155,7 +155,7 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	case "sun":
 		kuota = 0
 		jadwalToday = detailKTaripDokter.Sun
-		kuotaUmum = ktaripDokter2.QuotaPasien
+		kuotaUmum = 0
 	}
 
 	if jumlahJadwal == 0 {
