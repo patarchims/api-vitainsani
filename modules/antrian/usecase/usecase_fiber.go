@@ -16,7 +16,7 @@ func (au *antrianUseCase) GetStatusAntreanUsecaseV2(payload *dto.StatusAntrianRe
 	detailKTaripDokter, err := au.antrianRepository.DetailTaripDokterByMapingAntrolRepository(payload.KodeDokter)
 
 	if err != nil || detailKTaripDokter.Iddokter == "" {
-		return res, errors.New("Dokter tidak ditemukan")
+		return res, errors.New("dokter tidak ditemukan")
 	}
 
 	lastCalled, _ := au.antrianRepository.LastCalledRepositoryV2(payload)
@@ -120,7 +120,9 @@ func (au *antrianUseCase) AmbilAntreanUsecaseV2(req dto.GetAntrianRequestV2, det
 	var jumlahJadwal = detailKTaripDokter.Mon + detailKTaripDokter.Tue + detailKTaripDokter.Wed + detailKTaripDokter.Thu + detailKTaripDokter.Fri + detailKTaripDokter.Sat
 
 	date, _ := time.Parse("2006-01-02", req.Tanggalperiksa)
+	au.logging.Info(date)
 	hari := strings.ToLower(date.Format("Mon"))
+	au.logging.Info(hari)
 	ktaripDokter2, _ := au.antrianRepository.DetailKtaripDokter2AntrolRepository(detailKTaripDokter.Iddokter)
 
 	var kuota int

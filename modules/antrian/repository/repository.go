@@ -430,7 +430,8 @@ func (ar *antrianRepository) CheckKuotaRepository(tglPeriksa string, idDokter st
 	var jmlhDaftar int64
 	var antrianOl antrian.AntrianOl
 
-	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ? AND kode_debitur = ?", idDokter, tglPeriksa, "BPJS").Find(&antrianOl).Count(&jmlhDaftar)
+	// TODO: UBAH CHEK ANTRIAN MENJADI != batal
+	resJmlhDaftar := ar.DB.Where("kd_dokter = ? AND tgl_periksa = ? AND kode_debitur = ? AND status != ?", idDokter, tglPeriksa, "BPJS", "batal").Find(&antrianOl).Count(&jmlhDaftar)
 
 	if resJmlhDaftar.Error != nil {
 		return false
