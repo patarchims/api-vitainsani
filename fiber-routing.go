@@ -47,8 +47,10 @@ func (s *Service) RoutingFiberAndListen(Logging *logrus.Logger) {
 	// NEW FITUR, ANTREAN FARMASI
 	api.Post("ambil-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.AmbilAntreanFarmasiFiberHandler)
 	api.Post("status-antrean-farmasi", rest.JWTVeifyHandler(Logging), s.FarmasiHandler.StatusAntreanFarmasiFiberHandler)
-	// cari profile pasien
 	api.Post("profile-pasien", rest.JWTVeifyHandler(Logging), s.UserHandler.ProfilePasienFiberHandler)
+
+	// UPDATE DATA USER
+	api.Post("user-update", s.UserHandler.OnChagedUserIDFiberHandler)
 
 	err := app.Listen(os.Getenv("DEPLOY_PORT"))
 

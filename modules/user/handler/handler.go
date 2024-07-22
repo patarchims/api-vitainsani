@@ -5,34 +5,12 @@ import (
 	"vincentcoreapi/app/rest"
 	"vincentcoreapi/helper"
 	"vincentcoreapi/modules/telegram"
-	"vincentcoreapi/modules/user/entity"
 
 	"github.com/goccy/go-json"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
 
-type UserHandler struct {
-	UserUseCase    entity.UserUseCase
-	UserRepository entity.UserRepository
-	Logging        *logrus.Logger
-
-	// AntrianUseCase    entity.AntrianUseCase
-	// AntrianRepository entity.AntrianRepository
-	// IAntrianMapper    mapper.IAntrianMapper
-	// Logging           *logrus.Logger
-}
-
-// @Summary			Get Token
-// @Description		Get token
-// @Tags			Auth
-// @Accept			json
-// @Produce			json
-// @Param			auth		body		dto.RequestHeader		true	"Get Token"
-// @Success			200			{object}  	helper.Response
-// @Failure      	201  		{array}  	helper.FailureResponse
-// @Router			/gettoken 	[get]
 func (uh *UserHandler) Login(c *gin.Context) {
 	type requestHeader struct {
 		Username string `header:"x-username" binding:"required"`

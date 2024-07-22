@@ -5,9 +5,17 @@ import (
 	"vincentcoreapi/app/rest"
 	"vincentcoreapi/helper"
 	"vincentcoreapi/modules/user/dto"
+	"vincentcoreapi/modules/user/entity"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/sirupsen/logrus"
 )
+
+type UserHandler struct {
+	UserUseCase    entity.UserUseCase
+	UserRepository entity.UserRepository
+	Logging        *logrus.Logger
+}
 
 func (uh *UserHandler) LoginFiberHandler(c *fiber.Ctx) error {
 
@@ -59,11 +67,20 @@ func (uh *UserHandler) ProfilePasienFiberHandler(c *fiber.Ctx) error {
 
 	uh.Logging.Info(payload)
 
-	// if errs != nil {
-	// 	response := helper.APIResponseFailure(errs.Error(), http.StatusCreated)
-	// 	ah.Logging.Info(response)
-	// 	return c.Status(fiber.StatusCreated).JSON(response)
-	// }
-
 	return nil
+}
+
+func (uh *UserHandler) OnChagedUserIDFiberHandler(c *fiber.Ctx) error {
+	// GET ALL USER IN KLINIK.USERS
+	update, er11 := uh.UserUseCase.OnChangeUserUseCase()
+
+	if er11 != nil {
+		response := helper.APIResponseFailure(er11.Error(), http.StatusCreated)
+		return c.Status(fiber.StatusCreated).JSON(response)
+	}
+
+	uh.Logging.Info(update)
+
+	response := helper.APIResponseFailure("Ok", http.StatusOK)
+	return c.Status(fiber.StatusOK).JSON(response)
 }

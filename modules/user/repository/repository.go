@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
 	"vincentcoreapi/modules/user"
 	"vincentcoreapi/modules/user/entity"
 
@@ -33,4 +35,28 @@ func (ur *userRepository) GetByUserRepository(userName string) (user user.ApiUse
 	} else {
 		return user, false
 	}
+}
+
+func (ur *userRepository) GetAllUserKlinikRepository() (user []user.KlinikUsers, err error) {
+	query := "SELECT * FROM klinik.users;"
+	result := ur.DB.Raw(query).Scan(&user)
+
+	if result.Error != nil {
+		message := fmt.Sprintf("Error %s, Data tidak ditemukan", result.Error)
+		return user, errors.New(message)
+	}
+
+	return user, nil
+}
+
+// UPDATE DATA
+func (ur *userRepository) OnUpdateUserKlinikRepository(userID string, app string, userDat user.KlinikUsers) (err error) {
+	err1 := ur.DB.Model(user.KlinikUsers{}).Where("id=? AND app=?", userID, app).Updates(userDat).Error
+
+	if err1 != nil {
+		return err1
+	}
+
+	return nil
+
 }

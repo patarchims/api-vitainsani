@@ -62,7 +62,7 @@ func RunApplication() {
 	mutiaraMapper := mutiaraMapper.NewMutiaranMapperImpl()
 
 	// USECASE LAYER
-	uu := userUseCase.NewUserUseCase(repoUser)
+	uu := userUseCase.NewUserUseCase(repoUser, logging)
 	fu := farmasiUseCase.FarmasiUseCase(repoFarmasi, mapperFarmasi)
 	au := antrianUseCase.NewAntrianUseCase(repoAntrian, mapperAntrian, logging)
 	mu := mutiaraUseCase.MutiaraUseCase(repoMutiara, mutiaraMapper)

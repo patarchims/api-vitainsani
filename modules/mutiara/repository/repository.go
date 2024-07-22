@@ -38,7 +38,7 @@ func (mr *mutiaraRepository) GetGajiRepository(userID string) (res []mutiara.DGa
 	result := mr.DB.Raw(query, userID).Scan(&res)
 
 	if result.Error != nil {
-		message := fmt.Sprintf("Error %s, Data tidak ditemukan", err.Error())
+		message := fmt.Sprintf("Error %s, Data tidak ditemukan", result.Error)
 		return res, errors.New(message)
 	}
 
@@ -51,7 +51,7 @@ func (mr *mutiaraRepository) GetPengajarRepository() (res []mutiara.DKaryawan, e
 	result := mr.DB.Raw(query).Scan(&res)
 
 	if result.Error != nil {
-		message := fmt.Sprintf("Error %s, Data tidak ditemukan", err.Error())
+		message := fmt.Sprintf("Error %s, Data tidak ditemukan", result.Error)
 		return res, errors.New(message)
 	}
 

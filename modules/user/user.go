@@ -58,10 +58,52 @@ type (
 		CpNumber             string
 		CpRelasi             string
 	}
+
+	// AMBIL DATA DARI VICORE_USR
+	VicoreUserModel struct {
+		ReqStatus     string
+		NotifStatus   string
+		DelStatus     string
+		CreatePc      string
+		CreateUser    string
+		CreateDttm    string
+		UpdDttm       string
+		Email         string
+		Nik           string
+		NoHp          string
+		KodeModul     string
+		VerifDttm     string
+		VerifUser     string
+		VerifPc       string
+		UserStatus    string
+		ActiveCode    string
+		NotifActiated bool
+		UserId        string
+		Password      string
+	}
+
+	// TABLE KLINIK.USERS
+	KlinikUsers struct {
+		App               string
+		Terminated        string
+		Id                string
+		User              string
+		MappingKpelayanan string
+		Password          string
+		View              string
+		Print             string
+		Edit              string
+		Del               string
+	}
 )
 
 func (ApiUser) TableName() string {
 	return "rekam.api_user"
+}
+
+// === TABLE KLINIK.USERS
+func (KlinikUsers) TableName() string {
+	return "klinik.users"
 }
 
 func (DProfilePasien) TableName() string {

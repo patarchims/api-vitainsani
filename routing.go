@@ -52,6 +52,9 @@ func (s *Service) RoutingAndListen(Logging *logrus.Logger) {
 	apiPublic.GET("/karyawan-all", s.MutiaraHandler.Pengajar)
 	apiPublic.GET("/pengajar/detail/:id", s.MutiaraHandler.Pengajar)
 
+	// USER
+	apiPublic.POST("/user-update", s.UserHandler.Login)
+
 	// FILETRANFER
 	apiProtected.POST("/upload-file", s.FileTransferHandler.UploadFile)
 	apiPublic.GET("/file-directories", s.FileTransferHandler.UploadFile)
